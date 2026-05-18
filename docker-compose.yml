@@ -1,0 +1,84 @@
+name: worldwright
+
+services:
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: worldwright-api
+    restart: unless-stopped
+    environment:
+      WORLDWRIGHT_LISTEN_ADDR: ":8080"
+      WORLDWRIGHT_DATABASE_PATH: "/data/worldwright.db"
+      WORLDWRIGHT_ASSETS_DIR: "/data/assets"
+      WORLDWRIGHT_SESSION_SECRET: "${WORLDWRIGHT_SESSION_SECRET:-change-me-in-production-please}"
+      WORLDWRIGHT_ALLOW_ORIGINS: "${WORLDWRIGHT_ALLOW_ORIGINS:-}"
+      WORLDWRIGHT_PUBLIC_URL: "${WORLDWRIGHT_PUBLIC_URL:-}"
+      WORLDWRIGHT_COOKIE_SECURE: "${WORLDWRIGHT_COOKIE_SECURE:-false}"
+      WORLDWRIGHT_ADMIN_EMAIL: "${WORLDWRIGHT_ADMIN_EMAIL:-admin@worldwright.local}"
+      WORLDWRIGHT_ADMIN_PASSWORD: "${WORLDWRIGHT_ADMIN_PASSWORD:-worldwright}"
+      WORLDWRIGHT_GOOGLE_CLIENT_ID: "${WORLDWRIGHT_GOOGLE_CLIENT_ID:-}"
+      WORLDWRIGHT_GOOGLE_CLIENT_SECRET: "${WORLDWRIGHT_GOOGLE_CLIENT_SECRET:-}"
+      WORLDWRIGHT_DISCORD_CLIENT_ID: "${WORLDWRIGHT_DISCORD_CLIENT_ID:-}"
+      WORLDWRIGHT_DISCORD_CLIENT_SECRET: "${WORLDWRIGHT_DISCORD_CLIENT_SECRET:-}"
+      WORLDWRIGHT_OAUTH_ALLOW_SIGNUP: "${WORLDWRIGHT_OAUTH_ALLOW_SIGNUP:-false}"
+    volumes:
+      - worldwright-data:/data
+    networks:
+      - worldwright-net
+    expose:
+      - "8080"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/api/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  web:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: worldwright-web
+    restart: unless-stopped
+    environment:
+      NUXT_API_BASE_INTERNAL: "http://api:8080"
+      NUXT_PUBLIC_API_BASE: "/api"
+      NUXT_PUBLIC_SITE_NAME: "${WORLDWRIGHT_SITE_NAME:-Worldwright}"
+      NUXT_PUBLIC_SITE_URL: "${WORLDWRIGHT_PUBLIC_URL:-}"
+      NUXT_PUBLIC_SITE_DESCRIPTION: "${WORLDWRIGHT_SITE_DESCRIPTION:-A self-hosted worldbuilding codex for tabletop roleplayers — dynamic entities, typed relationships, custom calendars, living maps.}"
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+      - worldwright-net
+    expose:
+      - "3000"
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: worldwright-caddy
+    restart: unless-stopped
+    depends_on:
+      - api
+      - web
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    networks:
+      - worldwright-net
+      - worldwright-extern
+    ports:
+      - "${WORLDWRIGHT_HTTP_PORT:-3000}:80"
+
+volumes:
+  worldwright-data:
+  caddy-data:
+  caddy-config:
+
+networks:
+  worldwright-net:
+    driver: bridge
+  worldwright-extern:
+    name: worldwright-extern
+    external: true

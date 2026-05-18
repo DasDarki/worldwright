@@ -1,0 +1,412 @@
+{
+  "app": {
+    "name": "Worldwright",
+    "tagline": "An atlas of every world you will ever invent."
+  },
+  "nav": {
+    "codex": "The Codex",
+    "entities": "Entities",
+    "events": "Events",
+    "timelines": "Timelines",
+    "maps": "Maps",
+    "calendars": "Calendars",
+    "assets": "Assets",
+    "account": "Account",
+    "search": "Search",
+    "tags": "Tags",
+    "settings": "Settings",
+    "openAtlas": "Open the Atlas",
+    "signIn": "Sign in",
+    "signOut": "Sign out"
+  },
+  "auth": {
+    "eyebrow": "Vol. I — the cartographer's codex",
+    "title": "Open the atlas.",
+    "subtitle": "Sign in to enter the codex.",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign in",
+    "or": "or",
+    "withGoogle": "Continue with Google",
+    "withDiscord": "Continue with Discord",
+    "footer": "Worldwright is bound for you alone, until you say otherwise.",
+    "needAdmin": "Editing the codex requires admin role.",
+    "errors": {
+      "invalid": "These credentials do not open the codex.",
+      "generic": "Something snagged the lock. Try again."
+    }
+  },
+  "entities": {
+    "title": "Entities",
+    "subtitle": "Every place, person, deity, and rumour in your atlas.",
+    "empty": "No entries yet.",
+    "by": "in",
+    "tag": "tagged",
+    "visibility": {
+      "secret": "secret",
+      "player": "player",
+      "public": "public"
+    },
+    "filteredByTag": "Filtered by tag",
+    "clearFilter": "Clear"
+  },
+  "assets": {
+    "title": "Asset library",
+    "lede": "Every chart, portrait, and emblem pressed into the codex.",
+    "filter": "Filter by filename…",
+    "uploadNew": "Upload an image",
+    "closeUpload": "Close uploader",
+    "empty": "No assets uploaded yet.",
+    "open": "Open",
+    "filename": "Filename",
+    "dimensions": "Dimensions",
+    "size": "Size",
+    "uploaded": "Uploaded",
+    "url": "Direct URL",
+    "copyUrl": "Copy URL",
+    "delete": "Delete asset",
+    "confirmDelete": "Delete this asset? Any embeds will break."
+  },
+  "account": {
+    "title": "Your account",
+    "eyebrow": "The cartographer · you",
+    "profile": "Profile",
+    "displayName": "Display name",
+    "displayNamePlaceholder": "The name shown beside your hand",
+    "avatarUrl": "Avatar URL",
+    "locale": "Interface language",
+    "saveProfile": "Save profile",
+    "profileSaved": "Profile saved.",
+    "saveFailed": "Could not save changes.",
+    "password": "Password",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "newPasswordConfirm": "Confirm new password",
+    "savePassword": "Change password",
+    "passwordChanged": "Password changed. Keep it well.",
+    "passwordTooShort": "New password must be at least 6 characters.",
+    "passwordMismatch": "The two new passwords do not match.",
+    "currentPasswordWrong": "The current password is wrong.",
+    "noPasswordYet": "No password set yet — define one to enable email sign-in.",
+    "identities": "Linked sign-in providers",
+    "noIdentities": "No external providers linked."
+  },
+  "shortcuts": {
+    "eyebrow": "Vol. I · Keystrokes",
+    "title": "Keyboard shortcuts",
+    "search": "Open search",
+    "help": "Show this overlay",
+    "dismiss": "Close any overlay",
+    "openHit": "Open the highlighted result",
+    "navHits": "Navigate hits",
+    "or": "or",
+    "tip": "Press ? anytime to open this overlay."
+  },
+  "pwa": {
+    "installTitle": "Install Worldwright",
+    "installBody": "Add the codex to your home screen for quicker access.",
+    "install": "Install",
+    "notNow": "Not now",
+    "updateTitle": "A new printing",
+    "updateBody": "A fresh build is ready. Reload to bind it.",
+    "refresh": "Reload",
+    "later": "Later",
+    "offlineReady": "Codex prepared for offline reading."
+  },
+  "mobile": {
+    "menu": "Open menu",
+    "close": "Close menu"
+  },
+  "tags": {
+    "title": "Tags",
+    "lede": "Cross-cutting threads that bind unrelated entries together.",
+    "filter": "Filter tags…",
+    "empty": "No tags yet — assign one on any entry."
+  },
+  "share": {
+    "publicBadge": "Public · pressed for everyone",
+    "copy": "Copy share link",
+    "copied": "Link copied"
+  },
+  "entity": {
+    "mentionedIn": "Mentioned in",
+    "tags": "Tags",
+    "fields": "Properties",
+    "noBacklinks": "No mentions yet.",
+    "edit": "Edit",
+    "back": "Back to the codex"
+  },
+  "editor": {
+    "newTitle": "A new entry.",
+    "editTitle": "Edit the entry.",
+    "eyebrowNew": "Vol. I · Fold a new leaf",
+    "eyebrowEdit": "Vol. I · Amend the entry",
+    "newLede": "Set the title first; everything else can be amended.",
+    "create": "Bind the entry",
+    "save": "Save changes",
+    "editingPrefix": "Editing"
+  },
+  "sidebar": {
+    "codex": "The Codex",
+    "new": "New entry",
+    "empty": "No entries yet. Bind the first.",
+    "dragHint": "Drag to reorder",
+    "reorderFailed": "Could not save the new order."
+  },
+  "search": {
+    "placeholder": "Search the codex…",
+    "empty": "No results."
+  },
+  "timelines": {
+    "title": "Timelines",
+    "titleSingular": "Timeline",
+    "lede": "Curated chronologies — pick the events that tell one thread of your world's story.",
+    "new": "New timeline",
+    "newTitle": "Curate a timeline.",
+    "newLede": "Name the thread, pick the events. Add and remove anytime.",
+    "eyebrowNew": "Vol. I · A new thread of time",
+    "eyebrowEdit": "Vol. I · Recurate the chronicle",
+    "editingPrefix": "Curating",
+    "editTitle": "Edit timeline",
+    "edit": "Edit",
+    "backList": "Back to timelines",
+    "backView": "Back to the timeline",
+    "empty": "No timelines curated yet.",
+    "events": "events",
+    "noEvents": "No events in this timeline yet.",
+    "chronicle": "Chronicle",
+    "delete": "Delete timeline",
+    "confirmDelete": "Delete this timeline?",
+    "form": {
+      "essentials": "Essentials",
+      "name": "Name",
+      "description": "Description",
+      "curate": "Events on this timeline",
+      "create": "Curate timeline",
+      "save": "Save changes"
+    },
+    "curator": {
+      "title": "Available events",
+      "search": "Filter events…",
+      "selected": "on this timeline",
+      "none": "No matching events."
+    }
+  },
+  "moons": {
+    "today": "Tonight's moons",
+    "tonight": "Tonight's sky"
+  },
+  "spoiler": {
+    "hidden": "Hidden",
+    "shown": "Shown",
+    "reveal": "Reveal spoiler",
+    "hide": "Hide spoiler"
+  },
+  "maps": {
+    "title": "Maps",
+    "lede": "Coastlines, marches, and the things that hide in their margins.",
+    "new": "New map",
+    "newTitle": "Bind a map.",
+    "newLede": "Upload an image, name it, and drop pins. Maps may nest — pin a continent to its region.",
+    "eyebrowNew": "Vol. I · A new sheet",
+    "eyebrowEdit": "Vol. I · Annotate the map",
+    "editingPrefix": "Editing",
+    "editTitle": "Edit map",
+    "edit": "Edit",
+    "editHint": "Click the canvas to drop a pin. Drag pins to reposition. Click a pin to edit its label and links.",
+    "backList": "Back to maps",
+    "backView": "Back to the map",
+    "empty": "No maps yet.",
+    "pins": "pins",
+    "deleteMap": "Delete map",
+    "removePin": "Remove pin",
+    "savePin": "Save pin",
+    "confirmDeletePin": "Remove this pin?",
+    "confirmDeleteMap": "Delete this map and all its pins?",
+    "linkedMap": "Open linked map →",
+    "linkedEntity": "Open linked entry →",
+    "unnamedPin": "Unnamed pin",
+    "label": "Label",
+    "visibility": "Visibility",
+    "linkEntity": "Linked entry",
+    "linkMap": "Linked map",
+    "pinEditor": "Pin",
+    "form": {
+      "image": "Image",
+      "details": "Details",
+      "name": "Name",
+      "namePlaceholder": "The Drowned Continent",
+      "parent": "Parent entity (optional)",
+      "parentHint": "Pin this map to a continent, region, or city…",
+      "replace": "Choose another image",
+      "bind": "Bind the map"
+    }
+  },
+  "calendars": {
+    "title": "Calendars",
+    "lede": "Every calendar your world keeps — months that never were, weekdays you named, moons that argue.",
+    "backList": "Back to calendars",
+    "eyebrow": "Vol. I · The hours",
+    "epochOf": "Epoch of",
+    "epochless": "No epoch",
+    "essentials": "Essentials",
+    "name": "Name",
+    "epoch": "Epoch",
+    "currentYear": "Current year",
+    "currentMonth": "Current month",
+    "currentDay": "Current day",
+    "leapRule": "Leap rule",
+    "leapHint": "every 7th year Harrow gains 3 days",
+    "months": "Months",
+    "weekdays": "Weekdays",
+    "eras": "Eras",
+    "moons": "Moons",
+    "phases": "Phases",
+    "addPhase": "Phase",
+    "phaseName": "Phase name",
+    "position": "Position",
+    "phasesEmpty": "This moon has no defined phases — add one above.",
+    "addMonth": "Add month",
+    "addWeekday": "Add weekday",
+    "addEra": "Add era",
+    "addMoon": "Add moon",
+    "monthName": "Month name",
+    "weekdayName": "Weekday name",
+    "eraName": "Era name",
+    "moonName": "Moon name",
+    "startYear": "Start year",
+    "suffix": "Suffix",
+    "cycleDays": "Cycle (days)",
+    "offsetDays": "Offset (days)",
+    "save": "Save calendar",
+    "saved": "Saved · the hours rebound."
+  },
+  "events": {
+    "title": "Events",
+    "lede": "Dated occurrences in the chronicle of your world.",
+    "panelTitle": "Events",
+    "empty": "No events recorded.",
+    "new": "New event",
+    "backList": "Back to events",
+    "newTitle": "Record an event.",
+    "editTitle": "Edit event",
+    "editingPrefix": "Editing",
+    "eyebrowNew": "Vol. I · A new entry in the chronicle",
+    "eyebrowEdit": "Vol. I · Amend the chronicle",
+    "newLede": "When did it happen, where, and to whom?",
+    "delete": "Delete event",
+    "deleteConfirm": "This cannot be undone.",
+    "deleteForever": "Delete forever",
+    "cancel": "Cancel",
+    "form": {
+      "essentials": "Essentials",
+      "title": "Title",
+      "calendar": "Calendar",
+      "visibility": "Visibility",
+      "when": "When",
+      "startDate": "Start",
+      "endDate": "End",
+      "span": "Spans more than one day",
+      "importance": "Importance (0–5)",
+      "participants": "Participants",
+      "addParticipant": "Add participant",
+      "role": "Role",
+      "entity": "Entry",
+      "noParticipants": "No participants yet.",
+      "body": "Body",
+      "create": "Record",
+      "save": "Save changes"
+    }
+  },
+  "relationships": {
+    "title": "Relationships",
+    "generic": "Ties",
+    "genealogy": "Lineage",
+    "parents": "Parents",
+    "children": "Children",
+    "spouses": "Spouses",
+    "siblings": "Siblings",
+    "editor": {
+      "title": "Threads & their tellers",
+      "add": "Bind a new thread",
+      "type": "Relationship",
+      "target": "Other entry",
+      "targetHint": "Search the codex…",
+      "description": "Note",
+      "descHint": "An optional inscription on the edge.",
+      "bind": "Bind the thread",
+      "empty": "No threads bound yet.",
+      "remove": "Remove",
+      "missing": "Select a relationship and a target first.",
+      "failed": "Could not bind the thread. Try again."
+    }
+  },
+  "home": {
+    "welcomePrefix": "Welcome back,",
+    "welcomeSuffix": "Cartographer.",
+    "lede": "Your codex stands open. Choose a thread to pull.",
+    "recent": "Recent leaves",
+    "stats": {
+      "entries": "Entries",
+      "types": "Types",
+      "tags": "Tags"
+    }
+  },
+  "common": {
+    "loading": "Reading the codex…",
+    "error": "An error befell the codex.",
+    "ok": "Acknowledged"
+  },
+  "onboarding": {
+    "eyebrow": "The first opening of the codex",
+    "title": "How shall we begin?",
+    "subtitle": "The atlas has been prepared with a sample world so you can explore the codex. Choose how you would like to start — you can change your mind later.",
+    "confirmPrune": "This will permanently remove the sample world. Continue?",
+    "confirmImport": "This will erase the current codex and replace it with the imported world. Continue?",
+    "errors": {
+      "generic": "Something snagged the binding. Try again.",
+      "importFailed": "The import could not be completed."
+    },
+    "options": {
+      "keep": {
+        "title": "Explore the sample world",
+        "body": "Browse the codex as-is with the example entities, tags, and calendar. You can clear the sample later from your account settings.",
+        "cta": "Enter the atlas"
+      },
+      "prune": {
+        "title": "Start from a blank page",
+        "body": "Remove the sample world entirely. You will begin with an empty codex and the core types ready for your own entries.",
+        "cta": "Wipe and start fresh"
+      },
+      "import": {
+        "title": "Import from LegendKeeper",
+        "body": "Upload a LegendKeeper world export (.json). The current codex will be cleared and the export imported, with images downloaded from LegendKeeper.",
+        "pickFile": "Choose a .json file",
+        "changeFile": "Choose a different file",
+        "cta": "Import & replace",
+        "running": "Importing — this can take a while…",
+        "note": "Currently only LegendKeeper exports are supported. Maps and pins are imported best-effort; mentions become wikilinks."
+      }
+    },
+    "summary": {
+      "title": "Import complete",
+      "entities": "entities imported",
+      "maps": "maps imported",
+      "pins": "map pins imported",
+      "images": "images downloaded",
+      "imagesFailed": "could not be downloaded",
+      "warnings": "Warnings",
+      "enter": "Enter the atlas"
+    }
+  },
+  "settings": {
+    "pruneSeed": {
+      "label": "The sample world",
+      "body": "Remove the sample entities, tags, calendar, and other seed content. Your own entries are untouched.",
+      "cta": "Remove sample data",
+      "confirm": "Remove all sample data? This cannot be undone.",
+      "done": "Sample data removed.",
+      "failed": "Could not remove sample data."
+    }
+  }
+}

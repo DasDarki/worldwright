@@ -1,0 +1,412 @@
+{
+  "app": {
+    "name": "Worldwright",
+    "tagline": "Ein Atlas für jede Welt, die du je erfindest."
+  },
+  "nav": {
+    "codex": "Der Codex",
+    "entities": "Einträge",
+    "events": "Ereignisse",
+    "timelines": "Zeitlinien",
+    "maps": "Karten",
+    "calendars": "Kalender",
+    "assets": "Bilder",
+    "account": "Konto",
+    "search": "Suche",
+    "tags": "Schlagworte",
+    "settings": "Einstellungen",
+    "openAtlas": "Den Atlas öffnen",
+    "signIn": "Anmelden",
+    "signOut": "Abmelden"
+  },
+  "auth": {
+    "eyebrow": "Band I — der Codex des Kartografen",
+    "title": "Den Atlas öffnen.",
+    "subtitle": "Melde dich an, um den Codex zu betreten.",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "submit": "Anmelden",
+    "or": "oder",
+    "withGoogle": "Mit Google fortfahren",
+    "withDiscord": "Mit Discord fortfahren",
+    "footer": "Worldwright ist für dich allein gebunden — bis du es anders bestimmst.",
+    "needAdmin": "Den Codex zu bearbeiten erfordert Admin-Rechte.",
+    "errors": {
+      "invalid": "Diese Zugangsdaten öffnen den Codex nicht.",
+      "generic": "Etwas hat das Schloss verklemmt. Versuch es erneut."
+    }
+  },
+  "entities": {
+    "title": "Einträge",
+    "subtitle": "Jeder Ort, jede Person, jede Gottheit, jedes Gerücht in deinem Atlas.",
+    "empty": "Noch keine Einträge.",
+    "by": "in",
+    "tag": "verschlagwortet",
+    "visibility": {
+      "secret": "geheim",
+      "player": "spieler",
+      "public": "öffentlich"
+    },
+    "filteredByTag": "Gefiltert nach Schlagwort",
+    "clearFilter": "Löschen"
+  },
+  "assets": {
+    "title": "Bilder-Bibliothek",
+    "lede": "Jede Karte, jedes Porträt, jedes Wappen — gepresst in den Codex.",
+    "filter": "Nach Dateinamen filtern…",
+    "uploadNew": "Bild hochladen",
+    "closeUpload": "Upload schließen",
+    "empty": "Noch keine Bilder hochgeladen.",
+    "open": "Öffnen",
+    "filename": "Dateiname",
+    "dimensions": "Maße",
+    "size": "Größe",
+    "uploaded": "Hochgeladen",
+    "url": "Direkte URL",
+    "copyUrl": "URL kopieren",
+    "delete": "Bild löschen",
+    "confirmDelete": "Dieses Bild löschen? Eingebettete Verweise werden brechen."
+  },
+  "account": {
+    "title": "Dein Konto",
+    "eyebrow": "Der Kartograf · du",
+    "profile": "Profil",
+    "displayName": "Anzeigename",
+    "displayNamePlaceholder": "Der Name neben deiner Hand",
+    "avatarUrl": "Avatar-URL",
+    "locale": "Sprache der Oberfläche",
+    "saveProfile": "Profil sichern",
+    "profileSaved": "Profil gesichert.",
+    "saveFailed": "Änderungen konnten nicht gesichert werden.",
+    "password": "Passwort",
+    "currentPassword": "Aktuelles Passwort",
+    "newPassword": "Neues Passwort",
+    "newPasswordConfirm": "Neues Passwort bestätigen",
+    "savePassword": "Passwort ändern",
+    "passwordChanged": "Passwort geändert. Halte es gut.",
+    "passwordTooShort": "Neues Passwort muss mindestens 6 Zeichen lang sein.",
+    "passwordMismatch": "Die beiden neuen Passwörter stimmen nicht überein.",
+    "currentPasswordWrong": "Das aktuelle Passwort ist falsch.",
+    "noPasswordYet": "Noch kein Passwort gesetzt — definiere eines, um Email-Login zu aktivieren.",
+    "identities": "Verknüpfte Login-Provider",
+    "noIdentities": "Keine externen Provider verknüpft."
+  },
+  "shortcuts": {
+    "eyebrow": "Band I · Tastaturkürzel",
+    "title": "Tastaturkürzel",
+    "search": "Suche öffnen",
+    "help": "Diese Übersicht öffnen",
+    "dismiss": "Overlay schließen",
+    "openHit": "Hervorgehobenes Ergebnis öffnen",
+    "navHits": "Treffer durchgehen",
+    "or": "oder",
+    "tip": "Drücke jederzeit ? für diese Übersicht."
+  },
+  "pwa": {
+    "installTitle": "Worldwright installieren",
+    "installBody": "Lege den Codex auf den Startbildschirm für schnelleren Zugriff.",
+    "install": "Installieren",
+    "notNow": "Nicht jetzt",
+    "updateTitle": "Eine neue Auflage",
+    "updateBody": "Eine frische Version ist bereit. Lade neu, um sie zu binden.",
+    "refresh": "Neu laden",
+    "later": "Später",
+    "offlineReady": "Codex für Offline-Lesen vorbereitet."
+  },
+  "mobile": {
+    "menu": "Menü öffnen",
+    "close": "Menü schließen"
+  },
+  "tags": {
+    "title": "Schlagworte",
+    "lede": "Querverbindungen, die unzusammenhängende Einträge zusammenbinden.",
+    "filter": "Schlagworte filtern…",
+    "empty": "Noch keine Schlagworte — vergib eines an einem beliebigen Eintrag."
+  },
+  "share": {
+    "publicBadge": "Öffentlich · für alle gebunden",
+    "copy": "Teilen-Link kopieren",
+    "copied": "Link kopiert"
+  },
+  "entity": {
+    "mentionedIn": "Erwähnt in",
+    "tags": "Schlagworte",
+    "fields": "Eigenschaften",
+    "noBacklinks": "Noch keine Erwähnungen.",
+    "edit": "Bearbeiten",
+    "back": "Zurück zum Codex"
+  },
+  "editor": {
+    "newTitle": "Ein neuer Eintrag.",
+    "editTitle": "Eintrag bearbeiten.",
+    "eyebrowNew": "Band I · Ein neues Blatt falten",
+    "eyebrowEdit": "Band I · Den Eintrag berichtigen",
+    "newLede": "Setze zuerst den Titel; alles andere lässt sich nachtragen.",
+    "create": "Den Eintrag binden",
+    "save": "Änderungen sichern",
+    "editingPrefix": "Bearbeite"
+  },
+  "sidebar": {
+    "codex": "Der Codex",
+    "new": "Neuer Eintrag",
+    "empty": "Noch keine Einträge. Binde den ersten.",
+    "dragHint": "Zum Sortieren ziehen",
+    "reorderFailed": "Neue Reihenfolge konnte nicht gespeichert werden."
+  },
+  "search": {
+    "placeholder": "Im Codex suchen…",
+    "empty": "Keine Treffer."
+  },
+  "timelines": {
+    "title": "Zeitlinien",
+    "titleSingular": "Zeitlinie",
+    "lede": "Kuratierte Chronologien — wähle die Ereignisse, die einen Faden deiner Welt erzählen.",
+    "new": "Neue Zeitlinie",
+    "newTitle": "Eine Zeitlinie kuratieren.",
+    "newLede": "Benenne den Faden, wähle die Ereignisse. Du kannst jederzeit hinzufügen oder entfernen.",
+    "eyebrowNew": "Band I · Ein neuer Faden der Zeit",
+    "eyebrowEdit": "Band I · Die Chronik neu kuratieren",
+    "editingPrefix": "Kuratiere",
+    "editTitle": "Zeitlinie bearbeiten",
+    "edit": "Bearbeiten",
+    "backList": "Zurück zu den Zeitlinien",
+    "backView": "Zurück zur Zeitlinie",
+    "empty": "Noch keine Zeitlinien kuratiert.",
+    "events": "Ereignisse",
+    "noEvents": "Noch keine Ereignisse in dieser Zeitlinie.",
+    "chronicle": "Chronik",
+    "delete": "Zeitlinie löschen",
+    "confirmDelete": "Diese Zeitlinie löschen?",
+    "form": {
+      "essentials": "Grunddaten",
+      "name": "Name",
+      "description": "Beschreibung",
+      "curate": "Ereignisse auf dieser Zeitlinie",
+      "create": "Zeitlinie kuratieren",
+      "save": "Änderungen sichern"
+    },
+    "curator": {
+      "title": "Verfügbare Ereignisse",
+      "search": "Ereignisse filtern…",
+      "selected": "auf dieser Zeitlinie",
+      "none": "Keine passenden Ereignisse."
+    }
+  },
+  "moons": {
+    "today": "Heutige Monde",
+    "tonight": "Der Himmel heute Nacht"
+  },
+  "spoiler": {
+    "hidden": "Verborgen",
+    "shown": "Sichtbar",
+    "reveal": "Spoiler aufdecken",
+    "hide": "Spoiler verbergen"
+  },
+  "maps": {
+    "title": "Karten",
+    "lede": "Küstenlinien, Marken — und das, was sich an ihren Rändern versteckt.",
+    "new": "Neue Karte",
+    "newTitle": "Eine Karte binden.",
+    "newLede": "Lade ein Bild hoch, benenne es, und setze Stecknadeln. Karten können verschachteln — verlinke einen Kontinent mit seiner Region.",
+    "eyebrowNew": "Band I · Ein neues Blatt",
+    "eyebrowEdit": "Band I · Die Karte annotieren",
+    "editingPrefix": "Bearbeite",
+    "editTitle": "Karte bearbeiten",
+    "edit": "Bearbeiten",
+    "editHint": "Klicke ins Feld, um eine Nadel zu setzen. Zieh sie zum Verschieben. Klicke eine Nadel, um Label und Links zu bearbeiten.",
+    "backList": "Zurück zu den Karten",
+    "backView": "Zurück zur Karte",
+    "empty": "Noch keine Karten.",
+    "pins": "Nadeln",
+    "deleteMap": "Karte löschen",
+    "removePin": "Nadel entfernen",
+    "savePin": "Nadel sichern",
+    "confirmDeletePin": "Diese Nadel entfernen?",
+    "confirmDeleteMap": "Diese Karte und alle ihre Nadeln löschen?",
+    "linkedMap": "Verlinkte Karte öffnen →",
+    "linkedEntity": "Verlinkten Eintrag öffnen →",
+    "unnamedPin": "Unbenannte Nadel",
+    "label": "Bezeichnung",
+    "visibility": "Sichtbarkeit",
+    "linkEntity": "Verknüpfter Eintrag",
+    "linkMap": "Verknüpfte Karte",
+    "pinEditor": "Nadel",
+    "form": {
+      "image": "Bild",
+      "details": "Details",
+      "name": "Name",
+      "namePlaceholder": "Der Ertrunkene Kontinent",
+      "parent": "Übergeordneter Eintrag (optional)",
+      "parentHint": "Verlinke diese Karte mit einem Kontinent, einer Region, einer Stadt…",
+      "replace": "Anderes Bild wählen",
+      "bind": "Karte binden"
+    }
+  },
+  "calendars": {
+    "title": "Kalender",
+    "lede": "Jeder Kalender, den deine Welt führt — Monate, die nie waren, Wochentage mit eigenen Namen, Monde, die widersprechen.",
+    "backList": "Zurück zu den Kalendern",
+    "eyebrow": "Band I · Die Stunden",
+    "epochOf": "Epoche von",
+    "epochless": "Keine Epoche",
+    "essentials": "Grunddaten",
+    "name": "Name",
+    "epoch": "Epoche",
+    "currentYear": "Aktuelles Jahr",
+    "currentMonth": "Aktueller Monat",
+    "currentDay": "Aktueller Tag",
+    "leapRule": "Schaltregel",
+    "leapHint": "alle 7 Jahre erhält Harrow 3 Tage zusätzlich",
+    "months": "Monate",
+    "weekdays": "Wochentage",
+    "eras": "Epochen",
+    "moons": "Monde",
+    "phases": "Phasen",
+    "addPhase": "Phase",
+    "phaseName": "Phasenname",
+    "position": "Position",
+    "phasesEmpty": "Dieser Mond hat noch keine Phasen — füge oben eine hinzu.",
+    "addMonth": "Monat hinzufügen",
+    "addWeekday": "Wochentag hinzufügen",
+    "addEra": "Epoche hinzufügen",
+    "addMoon": "Mond hinzufügen",
+    "monthName": "Monatsname",
+    "weekdayName": "Wochentagname",
+    "eraName": "Epochenname",
+    "moonName": "Mondname",
+    "startYear": "Startjahr",
+    "suffix": "Kürzel",
+    "cycleDays": "Zyklus (Tage)",
+    "offsetDays": "Versatz (Tage)",
+    "save": "Kalender sichern",
+    "saved": "Gesichert · die Stunden sind neu gebunden."
+  },
+  "events": {
+    "title": "Ereignisse",
+    "lede": "Datierte Vorkommnisse in der Chronik deiner Welt.",
+    "panelTitle": "Ereignisse",
+    "empty": "Keine Ereignisse vermerkt.",
+    "new": "Neues Ereignis",
+    "backList": "Zurück zu den Ereignissen",
+    "newTitle": "Ein Ereignis vermerken.",
+    "editTitle": "Ereignis bearbeiten",
+    "editingPrefix": "Bearbeite",
+    "eyebrowNew": "Band I · Ein neuer Eintrag in der Chronik",
+    "eyebrowEdit": "Band I · Die Chronik berichtigen",
+    "newLede": "Wann geschah es, wo, und mit wem?",
+    "delete": "Ereignis löschen",
+    "deleteConfirm": "Dies lässt sich nicht rückgängig machen.",
+    "deleteForever": "Endgültig löschen",
+    "cancel": "Abbrechen",
+    "form": {
+      "essentials": "Grunddaten",
+      "title": "Titel",
+      "calendar": "Kalender",
+      "visibility": "Sichtbarkeit",
+      "when": "Wann",
+      "startDate": "Beginn",
+      "endDate": "Ende",
+      "span": "Erstreckt sich über mehrere Tage",
+      "importance": "Bedeutung (0–5)",
+      "participants": "Beteiligte",
+      "addParticipant": "Beteiligte hinzufügen",
+      "role": "Rolle",
+      "entity": "Eintrag",
+      "noParticipants": "Noch keine Beteiligten.",
+      "body": "Körper",
+      "create": "Vermerken",
+      "save": "Änderungen sichern"
+    }
+  },
+  "relationships": {
+    "title": "Beziehungen",
+    "generic": "Bande",
+    "genealogy": "Abstammung",
+    "parents": "Eltern",
+    "children": "Kinder",
+    "spouses": "Verheiratet mit",
+    "siblings": "Geschwister",
+    "editor": {
+      "title": "Fäden & ihre Erzähler",
+      "add": "Neuen Faden knüpfen",
+      "type": "Beziehung",
+      "target": "Anderer Eintrag",
+      "targetHint": "Im Codex suchen…",
+      "description": "Anmerkung",
+      "descHint": "Eine optionale Inschrift auf dem Faden.",
+      "bind": "Faden knüpfen",
+      "empty": "Noch keine Fäden geknüpft.",
+      "remove": "Entfernen",
+      "missing": "Wähle zuerst eine Beziehung und ein Ziel.",
+      "failed": "Faden konnte nicht geknüpft werden. Versuch es erneut."
+    }
+  },
+  "home": {
+    "welcomePrefix": "Willkommen zurück,",
+    "welcomeSuffix": "Kartograf:in.",
+    "lede": "Dein Codex liegt offen. Welchen Faden ziehst du?",
+    "recent": "Letzte Blätter",
+    "stats": {
+      "entries": "Einträge",
+      "types": "Typen",
+      "tags": "Schlagworte"
+    }
+  },
+  "common": {
+    "loading": "Lese im Codex…",
+    "error": "Ein Unglück geschah im Codex.",
+    "ok": "Verstanden"
+  },
+  "onboarding": {
+    "eyebrow": "Das erste Aufschlagen des Codex",
+    "title": "Wie sollen wir beginnen?",
+    "subtitle": "Der Atlas wurde mit einer Beispielwelt vorbereitet, damit du den Codex erkunden kannst. Wähle, wie du starten möchtest — du kannst es später ändern.",
+    "confirmPrune": "Dies entfernt die Beispielwelt unwiderruflich. Fortfahren?",
+    "confirmImport": "Dies löscht den aktuellen Codex und ersetzt ihn durch die importierte Welt. Fortfahren?",
+    "errors": {
+      "generic": "Der Einband hat geklemmt. Versuche es erneut.",
+      "importFailed": "Der Import konnte nicht abgeschlossen werden."
+    },
+    "options": {
+      "keep": {
+        "title": "Beispielwelt erkunden",
+        "body": "Sieh dir den Codex mit Beispieleinträgen, Tags und Kalender an. Du kannst die Beispieldaten später aus den Einstellungen entfernen.",
+        "cta": "Atlas öffnen"
+      },
+      "prune": {
+        "title": "Mit leerem Blatt beginnen",
+        "body": "Entferne die Beispielwelt vollständig. Du beginnst mit einem leeren Codex; die Kern-Typen stehen für deine eigenen Einträge bereit.",
+        "cta": "Leeren und neu starten"
+      },
+      "import": {
+        "title": "Aus LegendKeeper importieren",
+        "body": "Lade einen LegendKeeper-Welt-Export (.json) hoch. Der aktuelle Codex wird gelöscht und der Export importiert; Bilder werden von LegendKeeper heruntergeladen.",
+        "pickFile": "JSON-Datei wählen",
+        "changeFile": "Andere Datei wählen",
+        "cta": "Importieren & ersetzen",
+        "running": "Importiere — das kann etwas dauern…",
+        "note": "Aktuell werden nur LegendKeeper-Exporte unterstützt. Karten und Pins werden bestmöglich übernommen; Erwähnungen werden zu Wikilinks."
+      }
+    },
+    "summary": {
+      "title": "Import abgeschlossen",
+      "entities": "Einträge importiert",
+      "maps": "Karten importiert",
+      "pins": "Markierungen importiert",
+      "images": "Bilder heruntergeladen",
+      "imagesFailed": "konnten nicht geladen werden",
+      "warnings": "Warnungen",
+      "enter": "Atlas öffnen"
+    }
+  },
+  "settings": {
+    "pruneSeed": {
+      "label": "Die Beispielwelt",
+      "body": "Entferne die Beispieleinträge, Tags, den Kalender und weitere Seed-Inhalte. Deine eigenen Einträge bleiben unberührt.",
+      "cta": "Beispieldaten entfernen",
+      "confirm": "Alle Beispieldaten entfernen? Das kann nicht rückgängig gemacht werden.",
+      "done": "Beispieldaten entfernt.",
+      "failed": "Beispieldaten konnten nicht entfernt werden."
+    }
+  }
+}
