@@ -24,6 +24,7 @@ useHead({ title: () => entity.value ? `${t('editor.editingPrefix')} ${entity.val
 
 const pending = ref(false)
 const error = ref<string | null>(null)
+const showDelete = ref(false)
 
 async function onSubmit(payload: any) {
   if (!entity.value) return
@@ -37,6 +38,20 @@ async function onSubmit(payload: any) {
     await router.push(`/entities/${res.entity.slug}`)
   } catch (e: any) {
     error.value = e?.data?.error || 'Failed to save changes'
+  } finally {
+    pending.value = false
+  }
+}
+
+async function onDelete() {
+  if (!entity.value) return
+  pending.value = true
+  error.value = null
+  try {
+    await $api(`/entities/${entity.value.id}`, { method: 'DELETE' })
+    await router.push('/')
+  } catch (e: any) {
+    error.value = e?.data?.error || 'Failed to delete entry'
   } finally {
     pending.value = false
   }
@@ -79,6 +94,23 @@ useReveal()
       <div class="ww-rule my-16" />
 
       <RelationshipEditor :entity-id="entity.id" />
+
+      <div class="ww-rule my-16" />
+
+      <div class="danger">
+        <Transition name="fade">
+          <button v-if="!showDelete" type="button" class="danger-trigger" @click="showDelete = true">
+            {{ t('entity.delete') }}
+          </button>
+          <div v-else class="danger-confirm">
+            <span class="confirm-text">{{ t('entity.deleteConfirm') }}</span>
+            <button type="button" class="cancel" @click="showDelete = false">{{ t('entity.cancel') }}</button>
+            <button type="button" class="ww-btn-primary destroy" @click="onDelete" :disabled="pending">
+              {{ t('entity.deleteForever') }}
+            </button>
+          </div>
+        </Transition>
+      </div>
     </div>
   </section>
 </template>
@@ -104,4 +136,40 @@ useReveal()
 }
 .fade-enter-active, .fade-leave-active { transition: opacity .3s ease; }
 .fade-enter-from, .fade-leave-to { opacity: 0; }
+
+.danger { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; }
+.danger-trigger {
+  font-family: 'Cormorant SC', serif;
+  font-size: 11px;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: rgb(var(--ww-vermilion) / .7);
+  background: transparent;
+  border: 1px dashed rgb(var(--ww-vermilion) / .4);
+  padding: 8px 16px;
+  transition: color .25s, background-color .25s, border-color .25s;
+}
+.danger-trigger:hover {
+  color: rgb(var(--ww-vermilion));
+  background: rgb(var(--ww-vermilion) / .08);
+  border-color: rgb(var(--ww-vermilion));
+}
+.danger-confirm {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.confirm-text { font-style: italic; color: rgb(var(--ww-vermilion)); }
+.cancel {
+  font-family: 'Cormorant SC', serif;
+  font-size: 11px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--ww-ink-faint);
+  background: transparent;
+  border: 0;
+}
+.destroy { background: rgb(var(--ww-vermilion)); }
+.destroy:hover { background: rgb(var(--ww-vermilion-deep)); }
 </style>

@@ -134,7 +134,11 @@
     "fields": "Eigenschaften",
     "noBacklinks": "Noch keine Erwähnungen.",
     "edit": "Bearbeiten",
-    "back": "Zurück zum Codex"
+    "back": "Zurück zum Codex",
+    "delete": "Eintrag löschen",
+    "deleteConfirm": "Das kann nicht rückgängig gemacht werden. Untergeordnete Einträge werden auf die oberste Ebene verschoben.",
+    "deleteForever": "Endgültig löschen",
+    "cancel": "Abbrechen"
   },
   "editor": {
     "newTitle": "Ein neuer Eintrag.",

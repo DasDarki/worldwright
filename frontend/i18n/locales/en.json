@@ -134,7 +134,11 @@
     "fields": "Properties",
     "noBacklinks": "No mentions yet.",
     "edit": "Edit",
-    "back": "Back to the codex"
+    "back": "Back to the codex",
+    "delete": "Delete entry",
+    "deleteConfirm": "This cannot be undone. Child entries will be moved to the root.",
+    "deleteForever": "Delete forever",
+    "cancel": "Cancel"
   },
   "editor": {
     "newTitle": "A new entry.",
