@@ -1,6 +1,6 @@
 # Worldwright
 
-A self-hosted worldbuilding wiki for tabletop RPG settings — see `concept.md` for the full design.
+A self-hosted worldbuilding wiki for tabletop RPG settings.
 
 ## Quick start (Docker)
 
