@@ -138,7 +138,8 @@
     "delete": "Delete entry",
     "deleteConfirm": "This cannot be undone. Child entries will be moved to the root.",
     "deleteForever": "Delete forever",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "previewMissing": "This reference is no longer available."
   },
   "editor": {
     "newTitle": "A new entry.",

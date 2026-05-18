@@ -26,8 +26,14 @@ const doc = computed<TipTapNode | null>(() => {
   font-size: 18px;
   line-height: 1.65;
   color: rgb(var(--ww-ink-shade));
+  overflow-wrap: anywhere;
+  min-width: 0;
 
   :deep(p) { margin: 0 0 1em; }
+  :deep(img), :deep(svg), :deep(.ww-img-embed) {
+    max-width: 100%;
+    height: auto;
+  }
   :deep(h2), :deep(h3) {
     font-family: 'Fraunces', serif;
     font-variation-settings: "SOFT" 60, "opsz" 144, "wght" 400;

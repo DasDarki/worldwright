@@ -1,14 +1,18 @@
+// Routes that require authentication. Everything else is openly viewable —
+// the backend filters content by visibility (public / player / secret), so an
+// anonymous visitor lands on the same URL as a logged-in player and just sees
+// the public subset. Edit / new pages additionally use the `admin-only`
+// middleware which redirects non-admins to the corresponding view page (or to
+// /login if they are not signed in at all).
+const AUTH_REQUIRED_PREFIXES = ['/account', '/onboarding']
+
 export default defineNuxtRouteMiddleware(async (to) => {
-  const publicPaths = ['/login']
-  if (publicPaths.includes(to.path)) return
+  if (to.path === '/login') return
   if (to.path.startsWith('/share/')) return
 
   const auth = useAuthStore()
   if (!auth.fetched) {
     await auth.fetchMe()
-  }
-  if (!auth.isAuthenticated) {
-    return navigateTo({ path: '/login', query: { redirect: to.fullPath } })
   }
 
   if (auth.isAdmin) {
@@ -22,5 +26,10 @@ export default defineNuxtRouteMiddleware(async (to) => {
     if (!needsOnboarding && to.path === '/onboarding') {
       return navigateTo('/')
     }
+  }
+
+  const needsAuth = AUTH_REQUIRED_PREFIXES.some((p) => to.path === p || to.path.startsWith(`${p}/`))
+  if (needsAuth && !auth.isAuthenticated) {
+    return navigateTo({ path: '/login', query: { redirect: to.fullPath } })
   }
 })

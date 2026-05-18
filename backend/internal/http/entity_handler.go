@@ -53,13 +53,19 @@ func listEntities(st *store.Store) fiber.Handler {
 func getEntityBySlug(st *store.Store) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		slug := c.Params("slug")
-		e, err := st.EntityBySlug(c.UserContext(), slug, auth.VisibilityFor(c))
+		visibility := auth.VisibilityFor(c)
+		e, err := st.EntityBySlug(c.UserContext(), slug, visibility)
 		if err != nil {
 			return err
 		}
 		if e.EntityTypeID != 0 {
 			t, _ := st.EntityTypeByID(c.UserContext(), e.EntityTypeID)
 			e.EntityType = t
+		}
+		// Scrub wikilinks whose target the caller cannot see, so secret
+		// entries don't leak through references in pages they CAN see.
+		if visible, err := content.VisibleSlugSet(c.UserContext(), st.DB(), visibility); err == nil {
+			e.Body = content.ScrubInvisibleWikilinks(e.Body, visible)
 		}
 		return c.JSON(fiber.Map{"entity": e})
 	}

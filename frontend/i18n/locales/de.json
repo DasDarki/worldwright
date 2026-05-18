@@ -138,7 +138,8 @@
     "delete": "Eintrag löschen",
     "deleteConfirm": "Das kann nicht rückgängig gemacht werden. Untergeordnete Einträge werden auf die oberste Ebene verschoben.",
     "deleteForever": "Endgültig löschen",
-    "cancel": "Abbrechen"
+    "cancel": "Abbrechen",
+    "previewMissing": "Diese Referenz ist nicht mehr verfügbar."
   },
   "editor": {
     "newTitle": "Ein neuer Eintrag.",

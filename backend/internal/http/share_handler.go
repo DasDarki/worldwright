@@ -5,6 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 
+	"worldwright/backend/internal/content"
 	"worldwright/backend/internal/store"
 )
 
@@ -18,6 +19,9 @@ func shareEntity(st *store.Store) fiber.Handler {
 		if e.EntityTypeID != 0 {
 			t, _ := st.EntityTypeByID(c.UserContext(), e.EntityTypeID)
 			e.EntityType = t
+		}
+		if visible, err := content.VisibleSlugSet(c.UserContext(), st.DB(), []string{"public"}); err == nil {
+			e.Body = content.ScrubInvisibleWikilinks(e.Body, visible)
 		}
 		bls, _ := st.Backlinks(c.UserContext(), e.ID, []string{"public"})
 		return c.JSON(fiber.Map{"entity": e, "backlinks": bls})

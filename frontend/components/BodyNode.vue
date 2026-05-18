@@ -46,11 +46,11 @@ defineProps<{ node: TipTapNode }>()
     loading="lazy"
   />
 
-  <NuxtLink
+  <WikilinkPreview
     v-else-if="node.type === 'wikilink' && node.attrs?.slug"
-    :to="`/entities/${node.attrs.slug}`"
-    class="ww-link"
-  >{{ node.attrs?.label || node.attrs?.slug }}</NuxtLink>
+    :slug="(node.attrs.slug as string)"
+    :label="(node.attrs.label as string) || ''"
+  />
 
   <template v-else-if="node.type === 'text'">{{ node.text }}</template>
 

@@ -80,7 +80,7 @@ useReveal()
 
 <template>
   <article v-if="entity" class="py-12 md:py-20">
-    <div class="mx-auto max-w-screen-2xl">
+    <div class="mx-auto max-w-screen-xl">
       <div class="topbar">
         <NuxtLink to="/entities" class="ww-btn-ghost back">
           <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
@@ -106,7 +106,7 @@ useReveal()
       </div>
 
       <div class="grid lg:grid-cols-[1.6fr_1fr] gap-12 lg:gap-16 mt-10">
-        <div class="stagger">
+        <div class="stagger main-col">
           <div class="entity-meta">
             <span class="type-chip">{{ typeName }}</span>
             <span class="ww-label visibility" :data-v="entity.visibility">{{ t(`entities.visibility.${entity.visibility}`) }}</span>
@@ -220,6 +220,12 @@ useReveal()
 
 .tags { margin-top: 32px; display: flex; gap: 8px; flex-wrap: wrap; }
 .pedigree { margin-top: 56px; }
+
+/* CSS Grid columns default to min-content; long inline text or wide canvases
+   in the left column will otherwise blow the layout out and push the side
+   panel off-screen. min-width: 0 lets the column actually shrink. */
+.main-col { min-width: 0; }
+.side { min-width: 0; }
 
 .side {
   position: sticky;

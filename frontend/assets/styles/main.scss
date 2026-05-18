@@ -5,21 +5,13 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    color-scheme: light dark;
-    /* Guard against accidental page-wide horizontal scroll caused by
-       isolated wide elements (e.g. embedded charts, mis-sized grids).
-       `clip` prevents a scrollbar without establishing a scroll container,
-       so sticky/fixed children keep working. */
-    overflow-x: clip;
-  }
+  html { color-scheme: light dark; }
   html.dark { color-scheme: dark; }
 
   body {
     @apply bg-parchment text-ink font-body antialiased;
     font-size: 18px;
     line-height: 1.55;
-    overflow-x: clip;
     transition: background-color .55s cubic-bezier(.22,1,.36,1), color .55s cubic-bezier(.22,1,.36,1);
   }
 

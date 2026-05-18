@@ -104,6 +104,11 @@ const drawerOpen = ref(false)
           class="logout"
           @click="logout"
         >{{ t('nav.signOut') }}</button>
+        <NuxtLink
+          v-else
+          to="/login"
+          class="logout"
+        >{{ t('nav.signIn') }}</NuxtLink>
       </div>
     </div>
   </header>

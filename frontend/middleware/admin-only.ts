@@ -25,6 +25,10 @@ export default defineNuxtRouteMiddleware(async (to) => {
   if (!auth.fetched) await auth.fetchMe()
   if (auth.isAdmin) return
 
+  if (!auth.isAuthenticated) {
+    return navigateTo({ path: '/login', query: { redirect: to.fullPath } })
+  }
+
   if (import.meta.client) {
     try {
       const toasts = useToastsStore()

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-definePageMeta({ layout: 'auth' })
+definePageMeta({ layout: 'auth', middleware: 'admin-only' })
 
 const { t } = useI18n()
 const auth = useAuthStore()
