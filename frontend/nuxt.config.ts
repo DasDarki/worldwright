@@ -159,7 +159,7 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    apiBaseInternal: process.env.NUXT_API_BASE_INTERNAL || 'http://localhost:8080',
+    apiBaseInternal: process.env.NUXT_API_BASE_INTERNAL || 'http://localhost:8080/api',
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE || '/api',
       siteName: process.env.NUXT_PUBLIC_SITE_NAME || 'Worldwright',

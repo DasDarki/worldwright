@@ -41,7 +41,7 @@ services:
     container_name: worldwright-web
     restart: unless-stopped
     environment:
-      NUXT_API_BASE_INTERNAL: "http://api:8080"
+      NUXT_API_BASE_INTERNAL: "http://api:8080/api"
       NUXT_PUBLIC_API_BASE: "/api"
       NUXT_PUBLIC_SITE_NAME: "${WORLDWRIGHT_SITE_NAME:-Worldwright}"
       NUXT_PUBLIC_SITE_URL: "${WORLDWRIGHT_PUBLIC_URL:-}"
