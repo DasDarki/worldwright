@@ -34,6 +34,7 @@ func RegisterRoutes(app *fiber.App, st *store.Store, authSvc *auth.Service, oaut
 	api.Get("/entities/:id/relationships", listRelationships(st))
 	api.Get("/entities/:id/genealogy", entityGenealogy(st))
 	api.Get("/entities/:id/events", entityEvents(st))
+	api.Post("/entities/relationship-graph", relationshipGraph(st))
 	api.Get("/relationship-types", listRelationshipTypes(st))
 	api.Get("/calendars", listCalendars(st))
 	api.Get("/calendars/:id", getCalendar(st))

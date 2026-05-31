@@ -362,6 +362,16 @@
     "error": "Ein Unglück geschah im Codex.",
     "ok": "Verstanden"
   },
+  "graph": {
+    "lineage": "Stammbaum",
+    "empty": "Keine Beziehungen zu zeichnen.",
+    "pickerTitle": "Einträge für den Graph wählen",
+    "pickerHint": "Wähle die Einträge, die im Graph erscheinen sollen. Die Beziehungen zwischen ihnen werden automatisch gezeichnet.",
+    "selected": "Ausgewählt",
+    "insert": "Graph einfügen",
+    "cancel": "Abbrechen",
+    "noSelection": "Mindestens zwei Einträge wählen."
+  },
   "onboarding": {
     "eyebrow": "Das erste Aufschlagen des Codex",
     "title": "Wie sollen wir beginnen?",

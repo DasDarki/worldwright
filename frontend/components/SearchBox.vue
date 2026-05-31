@@ -46,9 +46,10 @@ watch(query, (q) => {
 })
 
 function go(h: Hit) {
+  const q = query.value.trim()
   open.value = false
   query.value = ''
-  router.push(`/entities/${h.slug}`)
+  router.push({ path: `/entities/${h.slug}`, query: q ? { q } : undefined })
 }
 
 function onKeydown(e: KeyboardEvent) {

@@ -44,7 +44,10 @@ func rewriteNode(n *Node, entries []TitleSlug) {
 	if n == nil {
 		return
 	}
-	if n.Type == "wikilink" {
+	// Skip nodes whose content is verbatim — wikilinks, code blocks, inline
+	// code, and embedded graph widgets must not get their text rewritten.
+	switch n.Type {
+	case "wikilink", "codeBlock", "relationshipGraph":
 		return
 	}
 	if len(n.Content) == 0 {

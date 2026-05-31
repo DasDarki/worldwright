@@ -2,10 +2,24 @@
 import type { Editor } from '@tiptap/core'
 
 const props = defineProps<{ editor: Editor | null }>()
-const emit = defineEmits<{ wikilink: []; image: [] }>()
+const emit = defineEmits<{ wikilink: []; image: []; graph: [] }>()
 
 function is(name: string, attrs?: Record<string, any>) {
   return props.editor?.isActive(name, attrs) ?? false
+}
+
+function insertTable() {
+  props.editor?.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()
+}
+function toggleCodeBlock() {
+  props.editor?.chain().focus().toggleCodeBlock().run()
+}
+function toggleCallout() {
+  if (is('callout')) {
+    props.editor?.chain().focus().cycleCalloutVariant().run()
+  } else {
+    props.editor?.chain().focus().toggleCallout({ variant: 'info' }).run()
+  }
 }
 </script>
 
@@ -45,6 +59,34 @@ function is(name: string, attrs?: Record<string, any>) {
         <path d="M14 11 a5 5 0 0 0-7 0 l-3 3 a5 5 0 0 0 7 7 l1.5-1.5"/>
       </svg>
       [[…]]
+    </button>
+
+    <span class="sep" />
+
+    <button type="button" class="t-btn" :class="{ on: is('codeBlock') }" @click="toggleCodeBlock" aria-label="Code block">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 7 L4 12 L9 17 M15 7 L20 12 L15 17"/>
+      </svg>
+    </button>
+    <button type="button" class="t-btn" @click="insertTable" aria-label="Insert table">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6">
+        <rect x="3" y="5" width="18" height="14"/>
+        <path d="M3 10 H21 M3 14.5 H21 M8.5 5 V19 M14.5 5 V19"/>
+      </svg>
+    </button>
+    <button type="button" class="t-btn" :class="{ on: is('callout') }" @click="toggleCallout" aria-label="Callout block">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M12 8 V13 M12 16.5 V17"/>
+      </svg>
+    </button>
+    <button type="button" class="t-btn graph" @click="emit('graph')" aria-label="Relationship graph widget">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+        <circle cx="5" cy="6" r="2"/>
+        <circle cx="5" cy="18" r="2"/>
+        <circle cx="19" cy="12" r="2"/>
+        <path d="M7 6 L17 11 M7 18 L17 13"/>
+      </svg>
     </button>
   </div>
 </template>

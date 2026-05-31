@@ -362,6 +362,16 @@
     "error": "An error befell the codex.",
     "ok": "Acknowledged"
   },
+  "graph": {
+    "lineage": "Lineage",
+    "empty": "No relationships to draw.",
+    "pickerTitle": "Choose entries for the graph",
+    "pickerHint": "Pick the entries you want to chart. The relationships between them will be drawn automatically.",
+    "selected": "Selected",
+    "insert": "Insert graph",
+    "cancel": "Cancel",
+    "noSelection": "Pick at least two entries to draw the graph."
+  },
   "onboarding": {
     "eyebrow": "The first opening of the codex",
     "title": "How shall we begin?",

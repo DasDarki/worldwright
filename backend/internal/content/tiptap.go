@@ -45,11 +45,15 @@ func walk(n *Node, sb *strings.Builder, slugs *[]string) {
 	case "text":
 		sb.WriteString(n.Text)
 		sb.WriteByte(' ')
+	case "hardBreak":
+		sb.WriteByte(' ')
 	}
 	for i := range n.Content {
 		walk(&n.Content[i], sb, slugs)
 	}
-	if n.Type == "paragraph" || n.Type == "heading" || n.Type == "blockquote" {
+	switch n.Type {
+	case "paragraph", "heading", "blockquote", "codeBlock",
+		"tableHeader", "tableCell", "listItem", "callout":
 		sb.WriteByte('\n')
 	}
 }

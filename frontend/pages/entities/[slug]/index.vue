@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Backlink, Entity, Genealogy } from '~/types/api'
 import { useAuthStore } from '~/stores/auth'
+import { highlightInDom } from '~/composables/useHighlightInDom'
 
 const route = useRoute()
 const { t, locale } = useI18n()
@@ -76,10 +77,29 @@ const fields = computed(() => {
 })
 
 useReveal()
+
+const bodyRef = ref<HTMLElement | null>(null)
+
+if (import.meta.client) {
+  onMounted(() => {
+    const q = (route.query.q as string) || ''
+    if (!q) return
+    nextTick(() => {
+      // The .ww-body is rendered inside BodyView; query the page root after
+      // hydration so the entire article is searchable, not just the body
+      // (titles, summaries and field values are valid search targets too).
+      const root = document.querySelector('.entity-article') as HTMLElement | null
+      const first = highlightInDom(root, q)
+      if (first) {
+        first.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }
+    })
+  })
+}
 </script>
 
 <template>
-  <article v-if="entity" class="py-12 md:py-20">
+  <article v-if="entity" class="entity-article py-12 md:py-20">
     <div class="mx-auto max-w-screen-xl">
       <div class="topbar">
         <NuxtLink to="/entities" class="ww-btn-ghost back">
@@ -128,10 +148,10 @@ useReveal()
             <span v-for="tag in entity.tags" :key="tag" class="ww-tag">{{ tag }}</span>
           </div>
 
-          <PedigreeChart
+          <RelationshipGraph
             v-if="hasGenealogy && genealogy"
-            :genealogy="genealogy"
-            :focal="entity.id"
+            :entity-ids="genealogy.nodes.map((n) => n.id)"
+            :title="t('graph.lineage')"
             class="pedigree"
           />
         </div>

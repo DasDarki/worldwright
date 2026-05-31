@@ -180,6 +180,28 @@ type reorderRequest struct {
 	} `json:"order"`
 }
 
+type graphRequest struct {
+	IDs  []int64 `json:"ids"`
+	Lang string  `json:"lang"`
+}
+
+func relationshipGraph(st *store.Store) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		var req graphRequest
+		if err := c.BodyParser(&req); err != nil {
+			return fiber.NewError(fiber.StatusBadRequest, "invalid body")
+		}
+		if len(req.IDs) > 200 {
+			return fiber.NewError(fiber.StatusBadRequest, "too many ids (max 200)")
+		}
+		g, err := st.RelationshipGraphForIDs(c.UserContext(), req.IDs, auth.VisibilityFor(c), req.Lang)
+		if err != nil {
+			return err
+		}
+		return c.JSON(g)
+	}
+}
+
 func reorderEntities(st *store.Store) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var req reorderRequest

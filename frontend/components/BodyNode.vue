@@ -38,12 +38,47 @@ defineProps<{ node: TipTapNode }>()
     <BodyNode v-for="(c, i) in node.content || []" :key="i" :node="c" />
   </SpoilerBlock>
 
+  <aside
+    v-else-if="node.type === 'callout'"
+    class="ww-callout"
+    :data-variant="(node.attrs?.variant as string) || 'info'"
+  >
+    <BodyNode v-for="(c, i) in node.content || []" :key="i" :node="c" />
+  </aside>
+
+  <pre v-else-if="node.type === 'codeBlock'" class="ww-code"><code><BodyNode v-for="(c, i) in node.content || []" :key="i" :node="c" /></code></pre>
+
+  <div v-else-if="node.type === 'table'" class="ww-table-wrap">
+    <table class="ww-table">
+      <tbody>
+        <BodyNode v-for="(c, i) in node.content || []" :key="i" :node="c" />
+      </tbody>
+    </table>
+  </div>
+  <tr v-else-if="node.type === 'tableRow'">
+    <BodyNode v-for="(c, i) in node.content || []" :key="i" :node="c" />
+  </tr>
+  <th v-else-if="node.type === 'tableHeader'" :colspan="Number(node.attrs?.colspan) || 1" :rowspan="Number(node.attrs?.rowspan) || 1">
+    <BodyNode v-for="(c, i) in node.content || []" :key="i" :node="c" />
+  </th>
+  <td v-else-if="node.type === 'tableCell'" :colspan="Number(node.attrs?.colspan) || 1" :rowspan="Number(node.attrs?.rowspan) || 1">
+    <BodyNode v-for="(c, i) in node.content || []" :key="i" :node="c" />
+  </td>
+
+  <hr v-else-if="node.type === 'horizontalRule'" class="ww-hr" />
+
   <img
     v-else-if="node.type === 'wwimage' && node.attrs?.src"
     :src="(node.attrs.src as string)"
     :alt="(node.attrs.alt as string) || ''"
     class="ww-img-embed"
     loading="lazy"
+  />
+
+  <RelationshipGraph
+    v-else-if="node.type === 'relationshipGraph'"
+    :entity-ids="(node.attrs?.entityIds as number[]) || []"
+    embedded
   />
 
   <WikilinkPreview

@@ -19,6 +19,14 @@
     @apply bg-vermilion text-parchment;
   }
 
+  mark.search-hl {
+    background: rgb(var(--ww-gold) / .42);
+    color: inherit;
+    padding: 0 2px;
+    border-radius: 1px;
+    box-shadow: 0 0 0 1px rgb(var(--ww-gold-deep) / .35);
+  }
+
   h1, h2, h3, h4 {
     @apply font-display;
     font-variation-settings: "SOFT" 60, "opsz" 144, "wght" 400;
