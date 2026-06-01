@@ -20,6 +20,7 @@ const emit = defineEmits<{
   'drag-start': [payload: DragState]
   'drag-end': []
   'reorder': [payload: { draggedId: number; targetId: number; position: 'before' | 'after' }]
+  'context': [payload: { id: number; title: string; slug: string; x: number; y: number }]
 }>()
 
 const expanded = ref(props.depth < 1)
@@ -75,6 +76,19 @@ function onDrop(e: DragEvent) {
   e.stopPropagation()
   emit('reorder', { draggedId, targetId: props.node.id, position: pos })
 }
+
+function onContext(e: MouseEvent) {
+  if (!props.canDrag) return // admins only — same gate as drag
+  e.preventDefault()
+  e.stopPropagation()
+  emit('context', {
+    id: props.node.id,
+    title: props.node.title,
+    slug: props.node.slug,
+    x: e.clientX,
+    y: e.clientY,
+  })
+}
 </script>
 
 <template>
@@ -96,6 +110,7 @@ function onDrop(e: DragEvent) {
       :draggable="canDrag"
       @dragstart="onDragStart"
       @dragend="onDragEnd"
+      @contextmenu="onContext"
     >
       <button
         v-if="hasChildren"
@@ -148,6 +163,7 @@ function onDrop(e: DragEvent) {
           @drag-start="(p) => emit('drag-start', p)"
           @drag-end="emit('drag-end')"
           @reorder="(p) => emit('reorder', p)"
+          @context="(p) => emit('context', p)"
         />
       </ul>
     </Transition>

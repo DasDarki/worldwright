@@ -6,7 +6,15 @@ const { t } = useI18n()
 useHead({ title: () => t('editor.newTitle') })
 
 const router = useRouter()
+const route = useRoute()
 const { $api } = useNuxtApp()
+
+const initialParentId = computed(() => {
+  const raw = route.query.parent
+  if (!raw) return null
+  const n = Number(raw)
+  return Number.isFinite(n) && n > 0 ? n : null
+})
 
 const pending = ref(false)
 const error = ref<string | null>(null)
@@ -50,6 +58,7 @@ useReveal()
 
       <EntityForm
         :submitting="pending"
+        :initial-parent-id="initialParentId"
         :submit-label="t('editor.create')"
         @submit="onSubmit"
       />

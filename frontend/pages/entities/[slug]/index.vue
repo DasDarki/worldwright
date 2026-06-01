@@ -78,23 +78,41 @@ const fields = computed(() => {
 
 useReveal()
 
-const bodyRef = ref<HTMLElement | null>(null)
-
 if (import.meta.client) {
-  onMounted(() => {
-    const q = (route.query.q as string) || ''
-    if (!q) return
-    nextTick(() => {
-      // The .ww-body is rendered inside BodyView; query the page root after
-      // hydration so the entire article is searchable, not just the body
-      // (titles, summaries and field values are valid search targets too).
-      const root = document.querySelector('.entity-article') as HTMLElement | null
-      const first = highlightInDom(root, q)
-      if (first) {
-        first.scrollIntoView({ behavior: 'smooth', block: 'center' })
-      }
-    })
-  })
+  // Re-run on every (slug, query) change: Vue keeps the same component
+  // instance when navigating between dynamic-route slugs, so onMounted only
+  // fires once and pure-mount-based highlighting won't trigger on subsequent
+  // search clicks until a hard reload.
+  //
+  // The watch waits until both the entity data is loaded AND the query is
+  // present, then defers to the next render flush so BodyView/BodyNode has
+  // already painted into the DOM before we walk it.
+  watch(
+    () => [slug.value, route.query.q, entity.value?.id] as const,
+    async ([, q, id]) => {
+      const query = (q as string | undefined) || ''
+      if (!query || !id) return
+      await nextTick()
+      // requestAnimationFrame waits one paint cycle further — needed because
+      // BodyView's reactivity may insert nodes one tick after entity loads.
+      requestAnimationFrame(() => {
+        const root = document.querySelector('.entity-article') as HTMLElement | null
+        // Clear any previous highlights from a prior navigation so re-running
+        // doesn't produce nested <mark> tags.
+        if (root) {
+          root.querySelectorAll('mark.search-hl').forEach((m) => {
+            const parent = m.parentNode
+            if (!parent) return
+            parent.replaceChild(document.createTextNode(m.textContent || ''), m)
+            parent.normalize?.()
+          })
+        }
+        const first = highlightInDom(root, query)
+        if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      })
+    },
+    { immediate: true },
+  )
 }
 </script>
 

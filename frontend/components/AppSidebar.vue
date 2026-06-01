@@ -46,6 +46,19 @@ interface DragState {
 }
 const dragState = ref<DragState | null>(null)
 
+interface CtxState {
+  id: number
+  title: string
+  slug: string
+  x: number
+  y: number
+}
+const ctxMenu = ref<CtxState | null>(null)
+function onContext(payload: CtxState) {
+  ctxMenu.value = payload
+}
+function closeCtx() { ctxMenu.value = null }
+
 function onDragStart(payload: DragState) {
   dragState.value = payload
 }
@@ -133,10 +146,21 @@ function isAncestor(maybeAncestorID: number, descendantParentID: number | null):
           @drag-start="onDragStart"
           @drag-end="onDragEnd"
           @reorder="onReorder"
+          @context="onContext"
         />
       </ul>
       <p v-if="!roots.length" class="empty">{{ t('sidebar.empty') }}</p>
     </nav>
+
+    <EntityContextMenu
+      :open="!!ctxMenu"
+      :x="ctxMenu?.x ?? 0"
+      :y="ctxMenu?.y ?? 0"
+      :node-id="ctxMenu?.id ?? null"
+      :node-title="ctxMenu?.title ?? ''"
+      :can-edit="auth.isAdmin"
+      @close="closeCtx"
+    />
   </aside>
 </template>
 

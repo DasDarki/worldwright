@@ -4,6 +4,7 @@ import { slugify } from '~/composables/useSlugify'
 
 const props = defineProps<{
   initial?: Entity | null
+  initialParentId?: number | null
   submitting?: boolean
   submitLabel?: string
 }>()
@@ -42,7 +43,7 @@ const title = ref(props.initial?.title ?? '')
 const slug = ref(props.initial?.slug ?? '')
 const summary = ref(props.initial?.summary ?? '')
 const body = ref<unknown>(props.initial?.body ?? { type: 'doc', content: [{ type: 'paragraph' }] })
-const parentId = ref<number | null>(props.initial?.parent_id ?? null)
+const parentId = ref<number | null>(props.initial?.parent_id ?? props.initialParentId ?? null)
 const visibility = ref<Visibility>(props.initial?.visibility ?? 'secret')
 const tags = ref<string[]>([...(props.initial?.tags ?? [])])
 const fieldValues = ref<Record<string, string>>({ ...(props.initial?.field_values ?? {}) })

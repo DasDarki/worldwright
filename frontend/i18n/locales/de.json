@@ -156,7 +156,10 @@
     "new": "Neuer Eintrag",
     "empty": "Noch keine Einträge. Binde den ersten.",
     "dragHint": "Zum Sortieren ziehen",
-    "reorderFailed": "Neue Reihenfolge konnte nicht gespeichert werden."
+    "reorderFailed": "Neue Reihenfolge konnte nicht gespeichert werden.",
+    "menu": {
+      "newSubpage": "Unterseite anlegen"
+    }
   },
   "search": {
     "placeholder": "Im Codex suchen…",

@@ -156,7 +156,10 @@
     "new": "New entry",
     "empty": "No entries yet. Bind the first.",
     "dragHint": "Drag to reorder",
-    "reorderFailed": "Could not save the new order."
+    "reorderFailed": "Could not save the new order.",
+    "menu": {
+      "newSubpage": "Create subpage"
+    }
   },
   "search": {
     "placeholder": "Search the codex…",

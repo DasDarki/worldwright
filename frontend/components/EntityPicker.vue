@@ -131,7 +131,7 @@ if (import.meta.client) {
             :key="h.id"
             :class="['hit', { active: i === active }]"
             @mouseenter="active = i"
-            @click="pick(h)"
+            @mousedown.prevent="pick(h)"
           >
             <div class="title">{{ h.title }}</div>
             <div v-if="h.summary" class="summary">{{ h.summary }}</div>
