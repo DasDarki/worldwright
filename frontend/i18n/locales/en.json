@@ -373,7 +373,10 @@
     "selected": "Selected",
     "insert": "Insert graph",
     "cancel": "Cancel",
-    "noSelection": "Pick at least two entries to draw the graph."
+    "noSelection": "Pick at least two entries to draw the graph.",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "reset": "Reset view"
   },
   "onboarding": {
     "eyebrow": "The first opening of the codex",

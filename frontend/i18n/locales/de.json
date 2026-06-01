@@ -373,7 +373,10 @@
     "selected": "Ausgewählt",
     "insert": "Graph einfügen",
     "cancel": "Abbrechen",
-    "noSelection": "Mindestens zwei Einträge wählen."
+    "noSelection": "Mindestens zwei Einträge wählen.",
+    "zoomIn": "Vergrößern",
+    "zoomOut": "Verkleinern",
+    "reset": "Ansicht zurücksetzen"
   },
   "onboarding": {
     "eyebrow": "Das erste Aufschlagen des Codex",
