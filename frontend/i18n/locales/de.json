@@ -139,7 +139,27 @@
     "deleteConfirm": "Das kann nicht rückgängig gemacht werden. Untergeordnete Einträge werden auf die oberste Ebene verschoben.",
     "deleteForever": "Endgültig löschen",
     "cancel": "Abbrechen",
-    "previewMissing": "Diese Referenz ist nicht mehr verfügbar."
+    "previewMissing": "Diese Referenz ist nicht mehr verfügbar.",
+    "shareTemp": "Temp-Link",
+    "exportMd": "Als Markdown herunterladen",
+    "printPdf": "Drucken / als PDF speichern",
+    "shareTokens": {
+      "title": "Temporärer Freigabe-Link",
+      "hint": "Jede:r mit diesem Link kann den Eintrag sehen, bis er abläuft — auch wenn der Eintrag auf Spieler:in oder geheim steht. Aktive Links können jederzeit widerrufen werden.",
+      "duration": "Gültigkeit",
+      "create": "Link erzeugen",
+      "copy": "Kopieren",
+      "copied": "Link kopiert.",
+      "copyFallback": "Diesen Link kopieren",
+      "revoke": "Widerrufen",
+      "revoked": "Link widerrufen.",
+      "revokeConfirm": "Diesen Freigabe-Link widerrufen?",
+      "revokeFailed": "Konnte nicht widerrufen werden.",
+      "createFailed": "Freigabe-Link konnte nicht erstellt werden.",
+      "loadFailed": "Freigabe-Links konnten nicht geladen werden.",
+      "expires": "Läuft ab",
+      "none": "Keine aktiven Freigabe-Links."
+    }
   },
   "editor": {
     "newTitle": "Ein neuer Eintrag.",
@@ -428,6 +448,11 @@
       "confirm": "Alle Beispieldaten entfernen? Das kann nicht rückgängig gemacht werden.",
       "done": "Beispieldaten entfernt.",
       "failed": "Beispieldaten konnten nicht entfernt werden."
+    },
+    "export": {
+      "label": "Codex exportieren",
+      "body": "Lade alle für dich sichtbaren Einträge als Ordner voller Markdown-Dateien in einem ZIP herunter. Gruppiert nach Entity-Typ.",
+      "cta": "Codex herunterladen (.zip)"
     }
   }
 }

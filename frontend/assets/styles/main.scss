@@ -271,3 +271,64 @@
   }
   .reveal, .stagger > * { opacity: 1 !important; transform: none !important; }
 }
+
+/* Print: when the user picks "Print → Save as PDF", the entity article
+   should fill the page without nav, sidebar, action buttons, or paper
+   overlays. Colors are forced to a print-safe palette so the SVG icons
+   and headings remain legible on white. */
+@media print {
+  html, body {
+    background: #fff !important;
+    color: #111 !important;
+  }
+  .ww-paper-grain,
+  .ww-paper-vignette,
+  .ww-paper-foxing,
+  .ww-nav,
+  .sidebar,
+  footer,
+  .topbar .actions,
+  .topbar .back,
+  .ww-graph .controls,
+  .side,
+  .pedigree,
+  .wl-preview,
+  .ctx-menu,
+  .ww-overlay,
+  mark.search-hl {
+    display: none !important;
+  }
+  mark.search-hl { background: transparent !important; box-shadow: none !important; }
+  .entity-article {
+    padding: 0 !important;
+  }
+  .entity-article .grid {
+    display: block !important;
+  }
+  .entity-title {
+    font-size: 36pt !important;
+  }
+  .ww-body :deep(p), .ww-body p {
+    orphans: 3;
+    widows: 3;
+  }
+  .ww-body :deep(h2), .ww-body :deep(h3),
+  .ww-body h2, .ww-body h3 {
+    break-after: avoid-page;
+  }
+  .ww-body :deep(.ww-callout),
+  .ww-body :deep(table),
+  .ww-body :deep(pre.ww-code) {
+    break-inside: avoid;
+  }
+  a, a:visited {
+    color: #111 !important;
+    text-decoration: underline;
+  }
+  .wikilink-chip, .ww-link {
+    background-image: none !important;
+  }
+  @page {
+    margin: 18mm 16mm;
+  }
+}

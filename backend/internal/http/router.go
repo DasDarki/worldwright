@@ -30,6 +30,7 @@ func RegisterRoutes(app *fiber.App, st *store.Store, authSvc *auth.Service, oaut
 	api.Get("/entity-types", listEntityTypes(st))
 	api.Get("/entities", listEntities(st))
 	api.Get("/entities/by-slug/:slug", getEntityBySlug(st))
+	api.Get("/entities/by-slug/:slug/export.md", exportEntityMarkdown(st))
 	api.Get("/entities/:id/backlinks", entityBacklinks(st))
 	api.Get("/entities/:id/relationships", listRelationships(st))
 	api.Get("/entities/:id/genealogy", entityGenealogy(st))
@@ -57,6 +58,9 @@ func RegisterRoutes(app *fiber.App, st *store.Store, authSvc *auth.Service, oaut
 	authed.Post("/entities/reorder", requireAdmin, reorderEntities(st))
 	authed.Patch("/entities/:id", requireAdmin, updateEntity(st))
 	authed.Delete("/entities/:id", requireAdmin, deleteEntity(st))
+	authed.Post("/entities/:id/share-tokens", requireAdmin, createShareToken(st))
+	authed.Get("/entities/:id/share-tokens", requireAdmin, listShareTokens(st))
+	authed.Delete("/share-tokens/:token", requireAdmin, revokeShareToken(st))
 
 	authed.Post("/relationships", requireAdmin, createRelationship(st))
 	authed.Delete("/relationships/:id", requireAdmin, deleteRelationship(st))
@@ -89,6 +93,7 @@ func RegisterRoutes(app *fiber.App, st *store.Store, authSvc *auth.Service, oaut
 	authed.Post("/admin/onboarding/prune-seed", requireAdmin, adminPruneSeed(adminSvc))
 	authed.Post("/admin/onboarding/import/legendkeeper", requireAdmin, adminImportLegendKeeper(adminSvc))
 	authed.Post("/admin/seed/prune", requireAdmin, adminPruneSeed(adminSvc))
+	authed.Get("/admin/export/wiki.zip", requireAdmin, exportWikiZip(st))
 }
 
 func requireAuth(c *fiber.Ctx) error {

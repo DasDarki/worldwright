@@ -9,9 +9,17 @@ const { $api } = useNuxtApp()
 const config = useRuntimeConfig()
 
 const slug = computed(() => route.params.slug as string)
+const shareToken = computed(() => {
+  const t = route.query.token
+  return typeof t === 'string' ? t : Array.isArray(t) ? String(t[0] ?? '') : ''
+})
 
-const { data, error } = await useAsyncData(`share-entity-${slug.value}`, () =>
-  $api<{ entity: Entity; backlinks: Backlink[] }>(`/share/entities/${slug.value}`),
+const { data, error } = await useAsyncData(
+  () => `share-entity-${slug.value}-${shareToken.value || 'public'}`,
+  () => $api<{ entity: Entity; backlinks: Backlink[] }>(
+    `/share/entities/${slug.value}${shareToken.value ? `?token=${encodeURIComponent(shareToken.value)}` : ''}`,
+  ),
+  { watch: [slug, shareToken] },
 )
 
 if (error.value && (error.value as any).statusCode === 404) {

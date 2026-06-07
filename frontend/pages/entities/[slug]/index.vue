@@ -10,8 +10,10 @@ const auth = useAuthStore()
 
 const slug = computed(() => route.params.slug as string)
 
-const { data, error } = await useAsyncData(`entity-${slug.value}`, () =>
-  $api<{ entity: Entity }>(`/entities/by-slug/${slug.value}`)
+const { data, error } = await useAsyncData(
+  () => `entity-${slug.value}`,
+  () => $api<{ entity: Entity }>(`/entities/by-slug/${slug.value}`),
+  { watch: [slug] },
 )
 
 if (error.value && (error.value as any).statusCode === 404) {
@@ -78,40 +80,49 @@ const fields = computed(() => {
 
 useReveal()
 
+const shareTempOpen = ref(false)
+function printPage() {
+  if (typeof window !== 'undefined') window.print()
+}
+
 if (import.meta.client) {
-  // Re-run on every (slug, query) change: Vue keeps the same component
-  // instance when navigating between dynamic-route slugs, so onMounted only
-  // fires once and pure-mount-based highlighting won't trigger on subsequent
-  // search clicks until a hard reload.
+  // Re-runs whenever the route query OR the loaded entity changes. Combined
+  // with flush:'post' + nextTick + rAF the DOM is guaranteed to be painted
+  // before we walk it for matches. This handles three flavours of arrival:
   //
-  // The watch waits until both the entity data is loaded AND the query is
-  // present, then defers to the next render flush so BodyView/BodyNode has
-  // already painted into the DOM before we walk it.
+  //   - hard reload of a /entities/foo?q=bar URL (everything ready at mount)
+  //   - SearchBox click that navigates to /entities/foo?q=bar (page may be
+  //     remounted; either way useAsyncData refetches via watch:[slug])
+  //   - searching for a slug we're already on (only the query changed)
+  function clearOldHighlights(root: HTMLElement) {
+    root.querySelectorAll('mark.search-hl').forEach((m) => {
+      const parent = m.parentNode
+      if (!parent) return
+      parent.replaceChild(document.createTextNode(m.textContent || ''), m)
+      parent.normalize?.()
+    })
+  }
+
+  function applyHighlight(query: string) {
+    const root = document.querySelector('.entity-article') as HTMLElement | null
+    if (!root) return
+    clearOldHighlights(root)
+    const first = highlightInDom(root, query)
+    if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
+
   watch(
-    () => [slug.value, route.query.q, entity.value?.id] as const,
-    async ([, q, id]) => {
-      const query = (q as string | undefined) || ''
+    [() => route.query.q, () => entity.value?.id],
+    async ([q, id]) => {
+      const query = typeof q === 'string' ? q : Array.isArray(q) ? String(q[0] ?? '') : ''
       if (!query || !id) return
+      // Wait two paint cycles: nextTick flushes Vue's pending re-renders,
+      // requestAnimationFrame ensures the browser has actually committed
+      // the new DOM (BodyView mounts a sub-tree that needs an extra frame).
       await nextTick()
-      // requestAnimationFrame waits one paint cycle further — needed because
-      // BodyView's reactivity may insert nodes one tick after entity loads.
-      requestAnimationFrame(() => {
-        const root = document.querySelector('.entity-article') as HTMLElement | null
-        // Clear any previous highlights from a prior navigation so re-running
-        // doesn't produce nested <mark> tags.
-        if (root) {
-          root.querySelectorAll('mark.search-hl').forEach((m) => {
-            const parent = m.parentNode
-            if (!parent) return
-            parent.replaceChild(document.createTextNode(m.textContent || ''), m)
-            parent.normalize?.()
-          })
-        }
-        const first = highlightInDom(root, query)
-        if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' })
-      })
+      requestAnimationFrame(() => requestAnimationFrame(() => applyHighlight(query)))
     },
-    { immediate: true },
+    { immediate: true, flush: 'post' },
   )
 }
 </script>
@@ -126,22 +137,50 @@ if (import.meta.client) {
           </svg>
           {{ t('entity.back') }}
         </NuxtLink>
-        <ShareButton
-          v-if="entity.visibility === 'public'"
-          :url="`/share/entity/${entity.slug}`"
-          class="share"
-        />
-        <NuxtLink
-          v-if="auth.isAdmin"
-          :to="`/entities/${entity.slug}/edit`"
-          class="ww-btn-ghost edit"
-        >
-          {{ t('entity.edit') }}
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-            <path d="M1 11 L3 11 L11 3 L9 1 L1 9 Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
-          </svg>
-        </NuxtLink>
+        <div class="actions">
+          <ShareButton
+            v-if="entity.visibility === 'public'"
+            :url="`/share/entity/${entity.slug}`"
+            class="share"
+          />
+          <button
+            v-if="auth.isAdmin"
+            type="button"
+            class="ww-btn-ghost"
+            :title="t('entity.shareTemp')"
+            @click="shareTempOpen = true"
+          >{{ t('entity.shareTemp') }}</button>
+          <a
+            :href="`/api/entities/by-slug/${entity.slug}/export.md`"
+            class="ww-btn-ghost"
+            :title="t('entity.exportMd')"
+          >.md</a>
+          <button
+            type="button"
+            class="ww-btn-ghost"
+            :title="t('entity.printPdf')"
+            @click="printPage"
+          >PDF</button>
+          <NuxtLink
+            v-if="auth.isAdmin"
+            :to="`/entities/${entity.slug}/edit`"
+            class="ww-btn-ghost edit"
+          >
+            {{ t('entity.edit') }}
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M1 11 L3 11 L11 3 L9 1 L1 9 Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+            </svg>
+          </NuxtLink>
+        </div>
       </div>
+
+      <ShareTokenDialog
+        v-if="auth.isAdmin && entity"
+        :open="shareTempOpen"
+        :entity-id="entity.id"
+        :entity-slug="entity.slug"
+        @close="shareTempOpen = false"
+      />
 
       <div class="grid lg:grid-cols-[1.6fr_1fr] gap-12 lg:gap-16 mt-10">
         <div class="stagger main-col">
@@ -202,6 +241,13 @@ if (import.meta.client) {
   justify-content: space-between;
   margin-bottom: 14px;
   gap: 14px;
+  flex-wrap: wrap;
+}
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 .back, .edit { margin: 0; }
 

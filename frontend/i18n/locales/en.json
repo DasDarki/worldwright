@@ -139,7 +139,27 @@
     "deleteConfirm": "This cannot be undone. Child entries will be moved to the root.",
     "deleteForever": "Delete forever",
     "cancel": "Cancel",
-    "previewMissing": "This reference is no longer available."
+    "previewMissing": "This reference is no longer available.",
+    "shareTemp": "Temp link",
+    "exportMd": "Download as Markdown",
+    "printPdf": "Print / save as PDF",
+    "shareTokens": {
+      "title": "Temporary share link",
+      "hint": "Anyone with the link can view this entry until it expires, even if the entry is set to player or secret. Revoke an active link at any time.",
+      "duration": "Duration",
+      "create": "Create link",
+      "copy": "Copy",
+      "copied": "Link copied.",
+      "copyFallback": "Copy this link",
+      "revoke": "Revoke",
+      "revoked": "Link revoked.",
+      "revokeConfirm": "Revoke this share link?",
+      "revokeFailed": "Could not revoke.",
+      "createFailed": "Could not create a share link.",
+      "loadFailed": "Could not load share links.",
+      "expires": "Expires",
+      "none": "No active share links."
+    }
   },
   "editor": {
     "newTitle": "A new entry.",
@@ -428,6 +448,11 @@
       "confirm": "Remove all sample data? This cannot be undone.",
       "done": "Sample data removed.",
       "failed": "Could not remove sample data."
+    },
+    "export": {
+      "label": "Export the codex",
+      "body": "Download every entry you can see as a folder of Markdown files inside a ZIP. The bundle is grouped by entity type.",
+      "cta": "Download wiki (.zip)"
     }
   }
 }
