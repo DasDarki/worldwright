@@ -46,6 +46,15 @@
 
   button { font: inherit; cursor: pointer; }
 
+  /* Tailwind preflight uses `font-weight: bolder`, which on EB Garamond
+     resolves to the same axis position as the parent if no in-between
+     weight is loaded. Force a concrete 700 so bold actually looks bold. */
+  strong, b {
+    font-weight: 700;
+    font-variation-settings: "wght" 700;
+  }
+  em, i { font-style: italic; }
+
   /* Native <option> elements inherit the OS theme by default, which can render
      as black-on-black in dark mode. Force the codex palette so the dropdown
      list stays legible across browsers. */

@@ -107,7 +107,11 @@ defineProps<{ node: TipTapNode }>()
     :label="(node.attrs.label as string) || ''"
   />
 
-  <template v-else-if="node.type === 'text'">{{ node.text }}</template>
+  <BodyText
+    v-else-if="node.type === 'text'"
+    :text="node.text || ''"
+    :marks="node.marks || []"
+  />
 
   <br v-else-if="node.type === 'hardBreak'" />
 
