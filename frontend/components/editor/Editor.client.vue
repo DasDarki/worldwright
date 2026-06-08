@@ -128,6 +128,11 @@ function insertVault() {
   color: rgb(var(--ww-ink-shade));
 
   p { margin: 0 0 1em; }
+  strong, b { font-weight: 700; }
+  em, i { font-style: italic; }
+  code { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+  s, del, strike { text-decoration: line-through; }
+
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Fraunces', serif;
     font-variation-settings: "SOFT" 60, "opsz" 144, "wght" 400;

@@ -46,12 +46,16 @@
 
   button { font: inherit; cursor: pointer; }
 
+  /* Allow the browser to synthesize bold/italic if the loaded font file
+     doesn't include the exact weight or style. Without this, missing
+     glyphs render as the regular weight on some browsers. */
+  body { font-synthesis: weight style; }
+
   /* Tailwind preflight uses `font-weight: bolder`, which on EB Garamond
      resolves to the same axis position as the parent if no in-between
      weight is loaded. Force a concrete 700 so bold actually looks bold. */
   strong, b {
-    font-weight: 700;
-    font-variation-settings: "wght" 700;
+    font-weight: 700 !important;
   }
   em, i { font-style: italic; }
 

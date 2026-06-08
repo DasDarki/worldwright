@@ -30,6 +30,13 @@ const doc = computed<TipTapNode | null>(() => {
   min-width: 0;
 
   :deep(p) { margin: 0 0 1em; }
+  :deep(strong), :deep(b) { font-weight: 700; }
+  :deep(em), :deep(i) { font-style: italic; }
+  :deep(s), :deep(del), :deep(strike) { text-decoration: line-through; }
+  :deep(code) {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: .92em;
+  }
   :deep(img), :deep(svg), :deep(.ww-img-embed) {
     max-width: 100%;
     height: auto;
