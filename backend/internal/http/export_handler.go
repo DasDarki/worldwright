@@ -24,6 +24,10 @@ func exportEntityMarkdown(st *store.Store) fiber.Handler {
 		if err != nil {
 			return err
 		}
+		// Markdown export is treated as anonymous read: secret-vault content
+		// never leaves the system via an exported file, regardless of who
+		// triggered the download.
+		e.Body = content.ScrubSecretVaults(e.Body, 0)
 		md := renderEntityMarkdown(e)
 		c.Set(fiber.HeaderContentType, "text/markdown; charset=utf-8")
 		c.Set(fiber.HeaderContentDisposition,
@@ -64,6 +68,7 @@ func exportWikiZip(st *store.Store) fiber.Handler {
 			if err != nil {
 				continue
 			}
+			e.Body = content.ScrubSecretVaults(e.Body, 0)
 			folder := typeFolder[e.EntityTypeID]
 			if folder == "" {
 				folder = "_misc"

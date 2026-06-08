@@ -12,6 +12,7 @@ import { Spoiler } from './SpoilerExtension'
 import { WWImage } from './ImageExtension'
 import { Callout } from './CalloutExtension'
 import { RelationshipGraphNode } from './RelationshipGraphExtension'
+import { SecretVault } from './SecretVaultExtension'
 
 const lowlight = createLowlight(common)
 
@@ -38,7 +39,7 @@ onMounted(() => {
     content: parseInitial(),
     extensions: [
       StarterKit.configure({
-        heading: { levels: [2, 3] },
+        heading: { levels: [1, 2, 3, 4, 5, 6] },
         codeBlock: false, // replaced by CodeBlockLowlight below
       }),
       CodeBlockLowlight.configure({ lowlight }),
@@ -51,6 +52,7 @@ onMounted(() => {
       Spoiler,
       WWImage,
       RelationshipGraphNode,
+      SecretVault,
     ],
     onUpdate({ editor }) {
       emit('update:modelValue', editor.getJSON())
@@ -79,6 +81,16 @@ function onGraphPick(payload: { entityIds: number[] }) {
   editor.value?.chain().focus().insertRelationshipGraph({ entityIds: payload.entityIds }).run()
   graphPickerOpen.value = false
 }
+
+function insertVault() {
+  const auth = useAuthStore()
+  const userId = auth.user?.id ?? 0
+  if (!userId) return
+  const id = (globalThis.crypto && 'randomUUID' in globalThis.crypto)
+    ? globalThis.crypto.randomUUID()
+    : `vault-${Date.now()}-${Math.floor(Math.random() * 1e9)}`
+  editor.value?.chain().focus().insertSecretVault({ vault_id: id, author_id: userId }).run()
+}
 </script>
 
 <template>
@@ -88,6 +100,7 @@ function onGraphPick(payload: { entityIds: number[] }) {
       @wikilink="pickerOpen = true"
       @image="imagePickerOpen = true"
       @graph="graphPickerOpen = true"
+      @vault="insertVault"
     />
     <EditorContent :editor="editor" class="editor-host" />
     <WikilinkPicker :open="pickerOpen" @close="pickerOpen = false" @pick="onPick" />
@@ -115,11 +128,36 @@ function onGraphPick(payload: { entityIds: number[] }) {
   color: rgb(var(--ww-ink-shade));
 
   p { margin: 0 0 1em; }
-  h2, h3 {
+  h1, h2, h3, h4, h5, h6 {
     font-family: 'Fraunces', serif;
     font-variation-settings: "SOFT" 60, "opsz" 144, "wght" 400;
     margin: 1.4em 0 .5em;
     letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+  h1 { font-size: clamp(28px, 3.4vw, 40px); }
+  h2 { font-size: clamp(22px, 2.6vw, 30px); }
+  h3 { font-size: clamp(18px, 2.0vw, 24px); }
+  h4 {
+    font-family: 'Cormorant SC', serif;
+    font-size: 16px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: rgb(var(--ww-gold-deep));
+  }
+  h5 {
+    font-family: 'Cormorant SC', serif;
+    font-size: 13px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: rgb(var(--ww-gold-deep));
+  }
+  h6 {
+    font-family: 'Cormorant SC', serif;
+    font-size: 11px;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--ww-ink-faint);
   }
   blockquote {
     border-left: 3px solid rgb(var(--ww-gold));
@@ -244,6 +282,42 @@ function onGraphPick(payload: { entityIds: number[] }) {
     outline: 2px solid rgb(var(--ww-vermilion));
     outline-offset: 2px;
   }
+
+  .ww-vault {
+    position: relative;
+    margin: 1.4em 0;
+    padding: 22px 24px 18px 56px;
+    border: 1px solid rgb(var(--ww-vermilion-deep) / .5);
+    background:
+      repeating-linear-gradient(
+        45deg,
+        rgb(var(--ww-vermilion) / .04),
+        rgb(var(--ww-vermilion) / .04) 8px,
+        rgb(var(--ww-vermilion) / .07) 8px,
+        rgb(var(--ww-vermilion) / .07) 16px
+      );
+    box-shadow: inset 0 0 0 1px rgb(var(--ww-vermilion-deep) / .15);
+  }
+  .ww-vault::before {
+    content: '';
+    position: absolute;
+    left: 18px; top: 22px;
+    width: 22px; height: 22px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237b2b1a' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><rect x='4' y='11' width='16' height='10' rx='1'/><path d='M8 11 V7 a4 4 0 0 1 8 0 V11'/><circle cx='12' cy='16' r='1.4' fill='%237b2b1a'/></svg>");
+  }
+  .ww-vault::after {
+    content: 'TOP SECRET';
+    position: absolute;
+    top: 6px; right: 12px;
+    font-family: 'Cormorant SC', serif;
+    font-size: 8px;
+    letter-spacing: .32em;
+    color: rgb(var(--ww-vermilion-deep));
+  }
+  .ww-vault p:last-child { margin-bottom: 0; }
 
   .spoiler-block {
     position: relative;

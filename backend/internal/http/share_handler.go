@@ -47,6 +47,9 @@ func shareEntity(st *store.Store) fiber.Handler {
 		if visible, err := content.VisibleSlugSet(c.UserContext(), st.DB(), []string{"public"}); err == nil {
 			e.Body = content.ScrubInvisibleWikilinks(e.Body, visible)
 		}
+		// Always strip secret-vault content for share-view callers: even with
+		// a valid token, the reader is anonymous and isn't the vault's author.
+		e.Body = content.ScrubSecretVaults(e.Body, 0)
 		bls, _ := st.Backlinks(c.UserContext(), e.ID, []string{"public"})
 		return c.JSON(fiber.Map{"entity": e, "backlinks": bls})
 	}

@@ -2,7 +2,7 @@
 import type { Editor } from '@tiptap/core'
 
 const props = defineProps<{ editor: Editor | null }>()
-const emit = defineEmits<{ wikilink: []; image: []; graph: [] }>()
+const emit = defineEmits<{ wikilink: []; image: []; graph: []; vault: [] }>()
 
 function is(name: string, attrs?: Record<string, any>) {
   return props.editor?.isActive(name, attrs) ?? false
@@ -21,6 +21,28 @@ function toggleCallout() {
     props.editor?.chain().focus().toggleCallout({ variant: 'info' }).run()
   }
 }
+
+const HEADING_LEVELS = [1, 2, 3, 4, 5, 6] as const
+const currentHeadingLevel = computed<number | null>(() => {
+  const e = props.editor
+  if (!e) return null
+  for (const lvl of HEADING_LEVELS) {
+    if (e.isActive('heading', { level: lvl })) return lvl
+  }
+  return null
+})
+function setHeading(level: number | null) {
+  const e = props.editor
+  if (!e) return
+  if (level == null) e.chain().focus().setParagraph().run()
+  else e.chain().focus().toggleHeading({ level: level as 1 | 2 | 3 | 4 | 5 | 6 }).run()
+}
+function onHeadingChange(ev: Event) {
+  const target = ev.target as HTMLSelectElement
+  const v = target.value
+  if (v === 'p') setHeading(null)
+  else setHeading(Number(v))
+}
 </script>
 
 <template>
@@ -32,8 +54,20 @@ function toggleCallout() {
       <i>I</i>
     </button>
     <span class="sep" />
-    <button type="button" class="t-btn" :class="{ on: is('heading', { level: 2 }) }" @click="editor.chain().focus().toggleHeading({ level: 2 }).run()" aria-label="Heading">H2</button>
-    <button type="button" class="t-btn" :class="{ on: is('heading', { level: 3 }) }" @click="editor.chain().focus().toggleHeading({ level: 3 }).run()" aria-label="Subheading">H3</button>
+    <select
+      class="t-select"
+      :value="currentHeadingLevel != null ? String(currentHeadingLevel) : 'p'"
+      aria-label="Heading level"
+      @change="onHeadingChange"
+    >
+      <option value="p">¶</option>
+      <option value="1">H1</option>
+      <option value="2">H2</option>
+      <option value="3">H3</option>
+      <option value="4">H4</option>
+      <option value="5">H5</option>
+      <option value="6">H6</option>
+    </select>
     <span class="sep" />
     <button type="button" class="t-btn" :class="{ on: is('blockquote') }" @click="editor.chain().focus().toggleBlockquote().run()" aria-label="Quote">&ldquo;</button>
     <button type="button" class="t-btn" :class="{ on: is('bulletList') }" @click="editor.chain().focus().toggleBulletList().run()" aria-label="Bullet list">•</button>
@@ -88,6 +122,13 @@ function toggleCallout() {
         <path d="M7 6 L17 11 M7 18 L17 13"/>
       </svg>
     </button>
+    <button type="button" class="t-btn vault" @click="emit('vault')" aria-label="Sealed section (author-only)">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="11" width="16" height="10" rx="1"/>
+        <path d="M8 11 V7 a4 4 0 0 1 8 0 V11"/>
+        <circle cx="12" cy="16" r="1.4" fill="currentColor"/>
+      </svg>
+    </button>
   </div>
 </template>
 
@@ -117,6 +158,20 @@ function toggleCallout() {
 .t-btn:hover { background: rgb(var(--ww-gold) / .12); color: rgb(var(--ww-gold-deep)); }
 .t-btn.on { background: rgb(var(--ww-ink)); color: rgb(var(--ww-parchment)); }
 .t-btn.italic { font-style: italic; }
+.t-select {
+  height: 32px;
+  background: transparent;
+  border: 1px solid transparent;
+  font-family: 'Cormorant SC', serif;
+  font-size: 11px;
+  letter-spacing: .18em;
+  color: rgb(var(--ww-ink));
+  padding: 0 6px;
+  cursor: pointer;
+  transition: background-color .25s ease, border-color .25s ease;
+}
+.t-select:hover { background: rgb(var(--ww-gold) / .12); border-color: var(--ww-ink-hairline); }
+.t-select:focus { outline: none; border-color: rgb(var(--ww-gold)); }
 .t-btn.wikilink {
   width: auto;
   gap: 6px;

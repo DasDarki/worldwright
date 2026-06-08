@@ -143,6 +143,8 @@ func renderBlock(n *Node, w *mdWriter, depth int) {
 			count = len(v)
 		}
 		w.Writef("> *[relationship graph: %d entries]*", count)
+	case "secretVault":
+		w.Write("> 🔒 *[sealed section — visible only to the author]*")
 	default:
 		// Unknown block: just render inline text inside.
 		if len(n.Content) > 0 {

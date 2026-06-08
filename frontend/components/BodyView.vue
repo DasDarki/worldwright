@@ -34,11 +34,39 @@ const doc = computed<TipTapNode | null>(() => {
     max-width: 100%;
     height: auto;
   }
-  :deep(h2), :deep(h3) {
+  :deep(h1), :deep(h2), :deep(h3), :deep(h4), :deep(h5), :deep(h6) {
     font-family: 'Fraunces', serif;
     font-variation-settings: "SOFT" 60, "opsz" 144, "wght" 400;
     margin: 1.4em 0 .5em;
     letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+  :deep(h1) { font-size: clamp(28px, 3.4vw, 40px); }
+  :deep(h2) { font-size: clamp(22px, 2.6vw, 30px); }
+  :deep(h3) { font-size: clamp(18px, 2.0vw, 24px); }
+  :deep(h4) {
+    font-family: 'Cormorant SC', serif;
+    font-size: 16px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: rgb(var(--ww-gold-deep));
+    margin-top: 1.3em;
+  }
+  :deep(h5) {
+    font-family: 'Cormorant SC', serif;
+    font-size: 13px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: rgb(var(--ww-gold-deep));
+    margin-top: 1.2em;
+  }
+  :deep(h6) {
+    font-family: 'Cormorant SC', serif;
+    font-size: 11px;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--ww-ink-faint);
+    margin-top: 1.1em;
   }
   :deep(blockquote) {
     border-left: 3px solid rgb(var(--ww-gold));
@@ -186,5 +214,48 @@ const doc = computed<TipTapNode | null>(() => {
   :deep(.ww-callout[data-variant="lore"]::before) {
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b8935a' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><path d='M12 3 L13.5 10.5 L21 12 L13.5 13.5 L12 21 L10.5 13.5 L3 12 L10.5 10.5 Z'/></svg>");
   }
+
+  /* Secret vaults — author-only content. The redacted variant shows a
+     sealed placeholder; non-redacted variant (only the author sees this)
+     gets full content. */
+  :deep(.ww-vault) {
+    position: relative;
+    margin: 1.6em 0;
+    padding: 22px 24px 18px 56px;
+    border: 1px solid rgb(var(--ww-vermilion-deep) / .5);
+    background:
+      repeating-linear-gradient(
+        45deg,
+        rgb(var(--ww-vermilion) / .04),
+        rgb(var(--ww-vermilion) / .04) 8px,
+        rgb(var(--ww-vermilion) / .07) 8px,
+        rgb(var(--ww-vermilion) / .07) 16px
+      );
+    box-shadow: inset 0 0 0 1px rgb(var(--ww-vermilion-deep) / .15);
+  }
+  :deep(.ww-vault::before) {
+    content: '';
+    position: absolute;
+    left: 18px; top: 22px;
+    width: 22px; height: 22px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237b2b1a' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><rect x='4' y='11' width='16' height='10' rx='1'/><path d='M8 11 V7 a4 4 0 0 1 8 0 V11'/><circle cx='12' cy='16' r='1.4' fill='%237b2b1a'/></svg>");
+  }
+  :deep(.ww-vault::after) {
+    content: 'STRENG GEHEIM';
+    position: absolute;
+    top: 6px; right: 12px;
+    font-family: 'Cormorant SC', serif;
+    font-size: 8px;
+    letter-spacing: .32em;
+    color: rgb(var(--ww-vermilion-deep));
+  }
+  :deep(.ww-vault.redacted) {
+    color: rgb(var(--ww-ink-faint) / .8);
+    font-style: italic;
+  }
+  :deep(.ww-vault p:last-child) { margin-bottom: 0; }
 }
 </style>

@@ -67,6 +67,15 @@ func getEntityBySlug(st *store.Store) fiber.Handler {
 		if visible, err := content.VisibleSlugSet(c.UserContext(), st.DB(), visibility); err == nil {
 			e.Body = content.ScrubInvisibleWikilinks(e.Body, visible)
 		}
+		// Secret-vault content is only sent to the user who authored the
+		// vault; for everyone else the inner content is replaced with a
+		// sealed placeholder (the node + author_id stay so the editor can
+		// still round-trip a save without losing data).
+		var viewerID int64
+		if u := auth.UserFrom(c); u != nil {
+			viewerID = u.ID
+		}
+		e.Body = content.ScrubSecretVaults(e.Body, viewerID)
 		return c.JSON(fiber.Map{"entity": e})
 	}
 }
@@ -136,6 +145,16 @@ func updateEntity(st *store.Store) fiber.Handler {
 		var req entityRequest
 		if err := c.BodyParser(&req); err != nil {
 			return fiber.NewError(fiber.StatusBadRequest, "invalid body")
+		}
+		// Merge in any secretVault content the editor couldn't see — the
+		// non-author admin's submission contains sealed placeholders that
+		// we must replace with the original DB content before saving.
+		var viewerID int64
+		if u := auth.UserFrom(c); u != nil {
+			viewerID = u.ID
+		}
+		if old, err := st.EntityByID(c.UserContext(), id, nil); err == nil && len(old.Body) > 0 {
+			req.Body = content.MergeSecretVaults(old.Body, req.Body, viewerID)
 		}
 		body := autoLinkBody(c, st, req.Body, req.Slug)
 		bodyText, slugs, err := content.ParseBody(body)

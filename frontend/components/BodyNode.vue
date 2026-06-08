@@ -13,12 +13,24 @@ defineProps<{ node: TipTapNode }>()
     <BodyNode v-for="(c, i) in node.content || []" :key="i" :node="c" />
   </p>
 
-  <h2 v-else-if="node.type === 'heading' && (node.attrs?.level === 1 || node.attrs?.level === 2)">
+  <h1 v-else-if="node.type === 'heading' && node.attrs?.level === 1">
+    <BodyNode v-for="(c, i) in node.content || []" :key="i" :node="c" />
+  </h1>
+  <h2 v-else-if="node.type === 'heading' && node.attrs?.level === 2">
     <BodyNode v-for="(c, i) in node.content || []" :key="i" :node="c" />
   </h2>
-  <h3 v-else-if="node.type === 'heading'">
+  <h3 v-else-if="node.type === 'heading' && node.attrs?.level === 3">
     <BodyNode v-for="(c, i) in node.content || []" :key="i" :node="c" />
   </h3>
+  <h4 v-else-if="node.type === 'heading' && node.attrs?.level === 4">
+    <BodyNode v-for="(c, i) in node.content || []" :key="i" :node="c" />
+  </h4>
+  <h5 v-else-if="node.type === 'heading' && node.attrs?.level === 5">
+    <BodyNode v-for="(c, i) in node.content || []" :key="i" :node="c" />
+  </h5>
+  <h6 v-else-if="node.type === 'heading'">
+    <BodyNode v-for="(c, i) in node.content || []" :key="i" :node="c" />
+  </h6>
 
   <blockquote v-else-if="node.type === 'blockquote'">
     <BodyNode v-for="(c, i) in node.content || []" :key="i" :node="c" />
@@ -42,6 +54,14 @@ defineProps<{ node: TipTapNode }>()
     v-else-if="node.type === 'callout'"
     class="ww-callout"
     :data-variant="(node.attrs?.variant as string) || 'info'"
+  >
+    <BodyNode v-for="(c, i) in node.content || []" :key="i" :node="c" />
+  </aside>
+
+  <aside
+    v-else-if="node.type === 'secretVault'"
+    class="ww-vault"
+    :class="{ redacted: node.attrs?.redacted }"
   >
     <BodyNode v-for="(c, i) in node.content || []" :key="i" :node="c" />
   </aside>

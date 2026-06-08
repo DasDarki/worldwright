@@ -86,14 +86,15 @@ function printPage() {
 }
 
 if (import.meta.client) {
-  // Re-runs whenever the route query OR the loaded entity changes. Combined
-  // with flush:'post' + nextTick + rAF the DOM is guaranteed to be painted
-  // before we walk it for matches. This handles three flavours of arrival:
-  //
-  //   - hard reload of a /entities/foo?q=bar URL (everything ready at mount)
-  //   - SearchBox click that navigates to /entities/foo?q=bar (page may be
-  //     remounted; either way useAsyncData refetches via watch:[slug])
-  //   - searching for a slug we're already on (only the query changed)
+  // The previous Vue-watch-based approach raced BodyView's nested rendering:
+  // by the time the watcher fired with the new entity, the BodyView subtree
+  // sometimes hadn't been committed to the DOM yet (or had been committed
+  // for the previous entity). Instead of trying to win that race, we just
+  // re-poll the DOM up to ~1.5s every 80ms — whenever the markup appears
+  // and contains a match, we highlight + scroll and stop polling. Each
+  // navigation cancels the previous polling loop so we never highlight
+  // against stale content.
+
   function clearOldHighlights(root: HTMLElement) {
     root.querySelectorAll('mark.search-hl').forEach((m) => {
       const parent = m.parentNode
@@ -103,27 +104,57 @@ if (import.meta.client) {
     })
   }
 
-  function applyHighlight(query: string) {
-    const root = document.querySelector('.entity-article') as HTMLElement | null
-    if (!root) return
-    clearOldHighlights(root)
-    const first = highlightInDom(root, query)
-    if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  let pollHandle: number | null = null
+  let pollGeneration = 0
+
+  function stopPolling() {
+    if (pollHandle != null) {
+      window.clearTimeout(pollHandle)
+      pollHandle = null
+    }
   }
 
-  watch(
-    [() => route.query.q, () => entity.value?.id],
-    async ([q, id]) => {
-      const query = typeof q === 'string' ? q : Array.isArray(q) ? String(q[0] ?? '') : ''
-      if (!query || !id) return
-      // Wait two paint cycles: nextTick flushes Vue's pending re-renders,
-      // requestAnimationFrame ensures the browser has actually committed
-      // the new DOM (BodyView mounts a sub-tree that needs an extra frame).
-      await nextTick()
-      requestAnimationFrame(() => requestAnimationFrame(() => applyHighlight(query)))
-    },
-    { immediate: true, flush: 'post' },
-  )
+  function pollHighlight(query: string, generation: number, deadline: number) {
+    if (generation !== pollGeneration) return
+    const root = document.querySelector('.entity-article') as HTMLElement | null
+    if (root) {
+      clearOldHighlights(root)
+      const first = highlightInDom(root, query)
+      if (first) {
+        first.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        return
+      }
+    }
+    if (performance.now() < deadline) {
+      pollHandle = window.setTimeout(() => pollHighlight(query, generation, deadline), 80)
+    }
+  }
+
+  function triggerHighlight() {
+    stopPolling()
+    const q = route.query.q
+    const query = typeof q === 'string' ? q : Array.isArray(q) ? String(q[0] ?? '') : ''
+    if (!query) return
+    const generation = ++pollGeneration
+    const deadline = performance.now() + 1500
+    // start immediately AND on the next paint, so a fast render path doesn't
+    // wait a needless 80ms
+    pollHighlight(query, generation, deadline)
+    requestAnimationFrame(() => pollHighlight(query, generation, deadline))
+  }
+
+  const router = useRouter()
+  let unhook: (() => void) | null = null
+
+  onMounted(() => {
+    triggerHighlight()
+    unhook = router.afterEach(() => triggerHighlight())
+  })
+
+  onBeforeUnmount(() => {
+    stopPolling()
+    if (unhook) unhook()
+  })
 }
 </script>
 

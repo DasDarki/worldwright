@@ -47,6 +47,10 @@ func walk(n *Node, sb *strings.Builder, slugs *[]string) {
 		sb.WriteByte(' ')
 	case "hardBreak":
 		sb.WriteByte(' ')
+	case "secretVault":
+		// Vault contents must NOT enter the FTS index — anyone with search
+		// access could otherwise reconstruct sealed text via snippets.
+		return
 	}
 	for i := range n.Content {
 		walk(&n.Content[i], sb, slugs)
