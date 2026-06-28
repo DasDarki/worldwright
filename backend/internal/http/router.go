@@ -31,6 +31,14 @@ func RegisterRoutes(app *fiber.App, st *store.Store, authSvc *auth.Service, oaut
 	api.Get("/entities", listEntities(st))
 	api.Get("/entities/by-slug/:slug", getEntityBySlug(st))
 	api.Get("/entities/by-slug/:slug/export.md", exportEntityMarkdown(st))
+
+	// Wiki-wide exports: any visitor can call these and gets only what their
+	// visibility level permits. Secret vaults stay sealed unless the caller
+	// is logged in as the author of that specific vault.
+	api.Get("/export/wiki.md",      exportWikiMarkdown(st))
+	api.Get("/export/wiki.md.zip",  exportWikiMarkdownZip(st))
+	api.Get("/export/wiki.pdf",     exportWikiPDF(st))
+	api.Get("/export/wiki.pdf.zip", exportWikiPDFZip(st))
 	api.Get("/entities/:id/backlinks", entityBacklinks(st))
 	api.Get("/entities/:id/relationships", listRelationships(st))
 	api.Get("/entities/:id/genealogy", entityGenealogy(st))
@@ -93,7 +101,6 @@ func RegisterRoutes(app *fiber.App, st *store.Store, authSvc *auth.Service, oaut
 	authed.Post("/admin/onboarding/prune-seed", requireAdmin, adminPruneSeed(adminSvc))
 	authed.Post("/admin/onboarding/import/legendkeeper", requireAdmin, adminImportLegendKeeper(adminSvc))
 	authed.Post("/admin/seed/prune", requireAdmin, adminPruneSeed(adminSvc))
-	authed.Get("/admin/export/wiki.zip", requireAdmin, exportWikiZip(st))
 }
 
 func requireAuth(c *fiber.Ctx) error {

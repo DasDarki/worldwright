@@ -451,8 +451,41 @@
     },
     "export": {
       "label": "Export the codex",
-      "body": "Download every entry you can see as a folder of Markdown files inside a ZIP. The bundle is grouped by entity type.",
-      "cta": "Download wiki (.zip)"
+      "body": "Download every entry you can see as Markdown or PDF — a single bundled document or one file per entry.",
+      "cta": "Open the export page"
+    }
+  },
+  "export": {
+    "eyebrow": "Vol. I · The export desk",
+    "title": "Export the codex",
+    "subtitle": "Choose how to take the codex with you. Each format is also reachable as a direct URL — handy for scripts and bookmarks.",
+    "download": "Download",
+    "footnote": "Sealed sections you have authored are included in your exports. Other authors' sealed sections, and any entries above your visibility level, are omitted.",
+    "shape": {
+      "single": "single document",
+      "archive": "archive of files"
+    },
+    "scope": {
+      "authenticated": "Exporting as your account — your own sealed sections are visible to you.",
+      "anonymous": "Exporting anonymously — only entries marked public will be included."
+    },
+    "options": {
+      "mdSingle": {
+        "title": "One big Markdown",
+        "body": "All visible entries concatenated into a single .md file, ordered alphabetically and separated by rules."
+      },
+      "mdZip": {
+        "title": "Markdown archive",
+        "body": "A ZIP containing one Markdown file per entry, grouped into folders by entity type, plus an INDEX.md."
+      },
+      "pdfSingle": {
+        "title": "One big PDF",
+        "body": "All visible entries rendered into a single PDF document with page breaks between entries."
+      },
+      "pdfZip": {
+        "title": "PDF archive",
+        "body": "A ZIP containing one PDF file per entry, grouped into folders by entity type."
+      }
     }
   }
 }

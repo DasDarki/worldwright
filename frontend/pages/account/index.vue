@@ -194,12 +194,12 @@ useReveal()
           </button>
         </section>
 
-        <section v-if="auth.isAdmin" class="block">
+        <section class="block">
           <h3 class="ww-label section-head">{{ t('settings.export.label') }}</h3>
           <p class="hint">{{ t('settings.export.body') }}</p>
-          <a href="/api/admin/export/wiki.zip" class="ww-btn-ghost">
+          <NuxtLink to="/export" class="ww-btn-ghost">
             {{ t('settings.export.cta') }}
-          </a>
+          </NuxtLink>
         </section>
       </div>
     </div>

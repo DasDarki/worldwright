@@ -451,8 +451,41 @@
     },
     "export": {
       "label": "Codex exportieren",
-      "body": "Lade alle für dich sichtbaren Einträge als Ordner voller Markdown-Dateien in einem ZIP herunter. Gruppiert nach Entity-Typ.",
-      "cta": "Codex herunterladen (.zip)"
+      "body": "Lade alle für dich sichtbaren Einträge als Markdown oder PDF herunter — entweder als ein zusammengefasstes Dokument oder eine Datei pro Eintrag.",
+      "cta": "Zur Export-Seite"
+    }
+  },
+  "export": {
+    "eyebrow": "Vol. I · Der Export-Schreibtisch",
+    "title": "Codex exportieren",
+    "subtitle": "Wähle, wie du den Codex mitnehmen willst. Jedes Format ist auch als direkte URL erreichbar — praktisch für Skripte und Lesezeichen.",
+    "download": "Herunterladen",
+    "footnote": "Streng-geheime Abschnitte, die du selbst geschrieben hast, sind in deinen Exporten enthalten. Sealed-Abschnitte anderer Autor:innen sowie Einträge oberhalb deiner Sichtbarkeitsstufe werden ausgelassen.",
+    "shape": {
+      "single": "Einzeldokument",
+      "archive": "Datei-Archiv"
+    },
+    "scope": {
+      "authenticated": "Export mit deinem Account — deine eigenen Sealed-Abschnitte sind enthalten.",
+      "anonymous": "Anonymer Export — nur als öffentlich markierte Einträge werden enthalten."
+    },
+    "options": {
+      "mdSingle": {
+        "title": "Ein großes Markdown",
+        "body": "Alle sichtbaren Einträge in einer .md-Datei aneinandergehängt, alphabetisch sortiert und durch Trennlinien separiert."
+      },
+      "mdZip": {
+        "title": "Markdown-Archiv",
+        "body": "Ein ZIP mit einer Markdown-Datei pro Eintrag, in Ordner nach Entity-Typ gruppiert, plus INDEX.md."
+      },
+      "pdfSingle": {
+        "title": "Ein großes PDF",
+        "body": "Alle sichtbaren Einträge als ein einziges PDF mit Seitenumbrüchen zwischen den Einträgen."
+      },
+      "pdfZip": {
+        "title": "PDF-Archiv",
+        "body": "Ein ZIP mit einer PDF-Datei pro Eintrag, in Ordner nach Entity-Typ gruppiert."
+      }
     }
   }
 }
