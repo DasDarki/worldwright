@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex flex-col share-layout">
+  <div class="onyx-shell flex flex-col share-layout">
     <div class="share-bar mx-auto w-full max-w-screen-2xl px-6 md:px-12 py-5 flex items-center justify-between">
       <a href="/" class="brand">
         <span class="dot" aria-hidden="true" />

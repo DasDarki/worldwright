@@ -35,15 +35,13 @@ type OAuthProvider struct {
 }
 
 type OAuth struct {
-	providers   map[string]*OAuthProvider
-	store       *store.Store
-	allowSignup bool
-	publicURL   string
+	providers map[string]*OAuthProvider
+	store     *store.Store
+	publicURL string
 }
 
 type OAuthSettings struct {
 	PublicURL           string
-	AllowSignup         bool
 	GoogleClientID      string
 	GoogleClientSecret  string
 	DiscordClientID     string
@@ -52,10 +50,9 @@ type OAuthSettings struct {
 
 func NewOAuth(s *store.Store, settings OAuthSettings) *OAuth {
 	o := &OAuth{
-		providers:   make(map[string]*OAuthProvider),
-		store:       s,
-		allowSignup: settings.AllowSignup,
-		publicURL:   strings.TrimRight(settings.PublicURL, "/"),
+		providers: make(map[string]*OAuthProvider),
+		store:     s,
+		publicURL: strings.TrimRight(settings.PublicURL, "/"),
 	}
 	redirect := func(provider string) string {
 		return o.publicURL + "/api/auth/oauth/" + provider + "/callback"
@@ -199,23 +196,7 @@ func (o *OAuth) ResolveUser(ctx context.Context, provider string, info *OAuthUse
 			return existing, nil
 		}
 	}
-	if !o.allowSignup {
-		return nil, ErrSignupDisabled
-	}
-	created, err := o.store.CreateUser(ctx, store.NewUser{
-		Email:       strings.ToLower(info.Email),
-		Role:        "player",
-		Locale:      "en",
-		DisplayName: info.Name,
-		AvatarURL:   info.Avatar,
-	})
-	if err != nil {
-		return nil, err
-	}
-	if err := o.store.LinkOAuthIdentity(ctx, created.ID, provider, info.Subject, info.Email); err != nil {
-		return nil, err
-	}
-	return created, nil
+	return nil, ErrSignupDisabled
 }
 
 func (o *OAuth) PublicURL() string { return o.publicURL }

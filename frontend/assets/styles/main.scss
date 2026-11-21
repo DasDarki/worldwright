@@ -8,6 +8,8 @@
   html { color-scheme: light dark; }
   html.dark { color-scheme: dark; }
 
+  .onyx-shell { min-height: calc(100vh - var(--onyx-banner-height, 0px)); }
+
   body {
     @apply bg-parchment text-ink font-body antialiased;
     font-size: 18px;

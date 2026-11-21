@@ -38,6 +38,9 @@ useSeoMeta({
 
 <template>
   <PaperOverlays />
+  <ClientOnly>
+    <OnyxBanner />
+  </ClientOnly>
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>

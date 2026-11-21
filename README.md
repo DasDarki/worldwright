@@ -24,6 +24,18 @@ WORLDWRIGHT_SITE_NAME=Worldwright
 
 `WORLDWRIGHT_PUBLIC_URL` is used both for OAuth callback URLs and to build absolute Open Graph URLs (`og:image`, `og:url`). Without it the SSR renderer falls back to the request's `Host` header — works on a single domain, fails for crawlers that don't follow redirects.
 
+### Sign-in with Onyx
+
+New accounts are created only through Onyx (OAuth 2.0 with PKCE, scope `username`). Email and password, Google and Discord keep working for existing accounts, but Google and Discord no longer create accounts; an unknown Google or Discord login lands on the login page with a hint. Signed-in users that are not connected yet see a banner and migrate with one click; their display name follows their Onyx username from then on. New Onyx accounts get the `player` role and no email address.
+
+```
+WORLDWRIGHT_ONYX_URL=https://auth.example.com
+WORLDWRIGHT_ONYX_CLIENT_ID=...
+WORLDWRIGHT_ONYX_CLIENT_SECRET=...
+```
+
+Register `<WORLDWRIGHT_PUBLIC_URL>/api/auth/onyx/callback` as redirect URI of the Worldwright app in Onyx.
+
 Fonts are downloaded at build time by `@nuxtjs/google-fonts` and bundled with the app; no runtime requests are made to Google's servers (GDPR-friendly).
 
 ### Progressive Web App

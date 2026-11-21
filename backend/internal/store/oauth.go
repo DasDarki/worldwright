@@ -48,3 +48,14 @@ func (s *Store) ListOAuthIdentities(ctx context.Context, userID int64) ([]OAuthI
 	}
 	return out, rows.Err()
 }
+
+func (s *Store) OAuthSubjectForUser(ctx context.Context, userID int64, provider string) (string, error) {
+	var subject string
+	err := s.db.QueryRowContext(ctx,
+		`SELECT subject FROM user_oauth_identities WHERE user_id = ? AND provider = ? ORDER BY id LIMIT 1`,
+		userID, provider).Scan(&subject)
+	if errors.Is(err, sql.ErrNoRows) {
+		return "", ErrNotFound
+	}
+	return subject, err
+}

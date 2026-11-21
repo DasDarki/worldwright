@@ -23,6 +23,7 @@ import (
 	"worldwright/backend/internal/auth"
 	"worldwright/backend/internal/config"
 	httpx "worldwright/backend/internal/http"
+	"worldwright/backend/internal/onyx"
 	"worldwright/backend/internal/store"
 )
 
@@ -68,7 +69,6 @@ func main() {
 	authSvc := auth.New(st, cfg.CookieSecure)
 	oauthSvc := auth.NewOAuth(st, auth.OAuthSettings{
 		PublicURL:           cfg.PublicURL,
-		AllowSignup:         cfg.OAuthAllowSignup,
 		GoogleClientID:      cfg.GoogleClientID,
 		GoogleClientSecret:  cfg.GoogleClientSecret,
 		DiscordClientID:     cfg.DiscordClientID,
@@ -105,7 +105,8 @@ func main() {
 		}))
 	}
 
-	httpx.RegisterRoutes(app, st, authSvc, oauthSvc, adminSvc, cfg.AssetsDir)
+	onyxClient := onyx.New(cfg.OnyxURL, cfg.OnyxClientID, cfg.OnyxClientSecret, cfg.PublicURL+"/api/auth/onyx/callback")
+	httpx.RegisterRoutes(app, st, authSvc, oauthSvc, onyxClient, adminSvc, cfg.AssetsDir)
 
 	listenErr := make(chan error, 1)
 	go func() {

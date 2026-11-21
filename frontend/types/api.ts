@@ -11,6 +11,8 @@ export interface User {
   id: number
   email: string
   has_password: boolean
+  onyx_enabled?: boolean
+  onyx_linked?: boolean
   role: 'admin' | 'player'
   locale: string
   display_name?: string

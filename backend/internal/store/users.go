@@ -21,7 +21,7 @@ func (s *Store) CreateUser(ctx context.Context, n NewUser) (*User, error) {
 	res, err := s.db.ExecContext(ctx,
 		`INSERT INTO users (email, password_hash, role, locale, display_name, avatar_url, created_at)
 		 VALUES (?, ?, ?, ?, ?, ?, ?)`,
-		n.Email, pwHash, n.Role, n.Locale, nullable(n.DisplayName), nullable(n.AvatarURL), now)
+		nullable(n.Email), pwHash, n.Role, n.Locale, nullable(n.DisplayName), nullable(n.AvatarURL), now)
 	if err != nil {
 		return nil, err
 	}
@@ -31,20 +31,25 @@ func (s *Store) CreateUser(ctx context.Context, n NewUser) (*User, error) {
 
 func (s *Store) UserByID(ctx context.Context, id int64) (*User, error) {
 	row := s.db.QueryRowContext(ctx,
-		`SELECT id, email, COALESCE(password_hash,''), role, locale, COALESCE(display_name,''), COALESCE(avatar_url,''), created_at
+		`SELECT id, COALESCE(email,''), COALESCE(password_hash,''), role, locale, COALESCE(display_name,''), COALESCE(avatar_url,''), created_at
 		 FROM users WHERE id = ?`, id)
 	return scanUser(row)
 }
 
 func (s *Store) UserByEmail(ctx context.Context, email string) (*User, error) {
 	row := s.db.QueryRowContext(ctx,
-		`SELECT id, email, COALESCE(password_hash,''), role, locale, COALESCE(display_name,''), COALESCE(avatar_url,''), created_at
+		`SELECT id, COALESCE(email,''), COALESCE(password_hash,''), role, locale, COALESCE(display_name,''), COALESCE(avatar_url,''), created_at
 		 FROM users WHERE email = ?`, email)
 	return scanUser(row)
 }
 
 func (s *Store) UpdateUserPassword(ctx context.Context, userID int64, passwordHash string) error {
 	_, err := s.db.ExecContext(ctx, `UPDATE users SET password_hash = ? WHERE id = ?`, passwordHash, userID)
+	return err
+}
+
+func (s *Store) UpdateUserDisplayName(ctx context.Context, userID int64, displayName string) error {
+	_, err := s.db.ExecContext(ctx, `UPDATE users SET display_name = ? WHERE id = ?`, nullable(displayName), userID)
 	return err
 }
 

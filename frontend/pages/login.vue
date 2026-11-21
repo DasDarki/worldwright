@@ -32,11 +32,59 @@ const password = ref('')
 const error = ref<string | null>(null)
 const pending = ref(false)
 
+const onyx = useOnyx()
+const onyxClaim = ref(typeof route.query.onyx_claim === 'string' ? route.query.onyx_claim : '')
+const onyxUser = typeof route.query.onyx_user === 'string' ? route.query.onyx_user : ''
+const linking = ref(false)
+const leaving = ref(false)
+const onyxError = computed(() => {
+  if (route.query.error === 'register_only') return t('onyx.registerOnly')
+  const result = route.query.onyx
+  return isOnyxResult(result) && result !== 'linked' ? t(`onyx.result.${result}`) : null
+})
+
+onMounted(() => {
+  if (onyxClaim.value) {
+    const query = { ...route.query }
+    delete query.onyx_claim
+    delete query.onyx_user
+    router.replace({ query })
+  } else if (onyx.hasPendingClaim()) {
+    linking.value = true
+  }
+})
+
+function signInWithOnyx() {
+  leaving.value = true
+  onyx.forgetClaim()
+  window.location.href = onyx.loginUrl(route.query.redirect)
+}
+
+function connectExisting() {
+  onyx.rememberClaim(onyxClaim.value)
+  onyxClaim.value = ''
+  linking.value = true
+}
+
+function createAccount() {
+  leaving.value = true
+  const claim = onyxClaim.value
+  onyx.forgetClaim()
+  window.location.href = onyx.registerUrl(claim)
+}
+
+function cancelClaim() {
+  onyx.forgetClaim()
+  onyxClaim.value = ''
+  linking.value = false
+}
+
 async function onSubmit() {
   error.value = null
   pending.value = true
   try {
     await auth.login(email.value, password.value)
+    await onyx.completePendingClaim()
     await router.replace((route.query.redirect as string) || '/')
   } catch (e: any) {
     error.value = e?.data?.error === 'invalid credentials'
@@ -64,6 +112,35 @@ const apiBase = computed(() => config.public.apiBase as string)
           <em>{{ t('app.tagline') }}</em>
         </h1>
         <p class="lede mb-10">{{ t('auth.subtitle') }}</p>
+
+        <div v-if="onyxClaim" class="onyx-claim">
+          <OnyxCrystal size="30px" />
+          <div class="claim-body">
+            <p class="claim-title">{{ t('onyx.welcome', { name: onyxUser || t('onyx.welcomeFallback') }) }}</p>
+            <p class="claim-text">{{ t('onyx.claimText') }}</p>
+            <div class="claim-actions">
+              <button type="button" class="onyx-button" :disabled="leaving" @click="connectExisting">{{ t('onyx.connectExisting') }}</button>
+              <button type="button" class="oauth-btn" :disabled="leaving" @click="createAccount">{{ t('onyx.createNew') }}</button>
+            </div>
+            <button type="button" class="link-button" @click="cancelClaim">{{ t('onyx.cancel') }}</button>
+          </div>
+        </div>
+
+        <template v-else>
+        <p v-if="linking" class="onyx-notice">
+          {{ t('onyx.linkingHint') }}
+          <button type="button" class="link-button" @click="cancelClaim">{{ t('onyx.cancel') }}</button>
+        </p>
+        <p v-if="onyxError" class="onyx-notice is-error">{{ onyxError }}</p>
+
+        <div v-if="!linking" class="onyx-primary">
+          <button type="button" class="onyx-button" :disabled="leaving" @click="signInWithOnyx">
+            <OnyxCrystal size="20px" :glow="false" />
+            {{ t('onyx.signIn') }}
+          </button>
+          <p class="onyx-hint">{{ t('onyx.signInHint') }}</p>
+          <div class="oauth-divider"><span>{{ t('onyx.otherMethods') }}</span></div>
+        </div>
 
         <form class="form" @submit.prevent="onSubmit" novalidate>
           <label class="field">
@@ -133,6 +210,9 @@ const apiBase = computed(() => config.public.apiBase as string)
             </a>
           </div>
         </div>
+
+        <p class="onyx-hint">{{ t('onyx.newAccounts') }}</p>
+        </template>
 
         <p class="footer-note">{{ t('auth.footer') }}</p>
       </div>
@@ -249,6 +329,69 @@ const apiBase = computed(() => config.public.apiBase as string)
   border-color: rgb(var(--ww-gold));
   background: rgb(var(--ww-gold) / .08);
   transform: translateY(-1px);
+}
+
+.onyx-primary { max-width: 30em; margin-bottom: 28px; }
+.onyx-primary .oauth-divider { margin: 26px 0 0; }
+.onyx-button {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid rgba(91, 157, 255, .65);
+  background: linear-gradient(180deg, #12203a, #0b1424);
+  color: #e9edf5;
+  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .01em;
+  cursor: pointer;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+  transition: border-color .25s ease, transform .12s ease;
+}
+.onyx-button:hover:not(:disabled) { border-color: #bcd6ff; }
+.onyx-button:active:not(:disabled) { transform: translateY(1px); }
+.onyx-button:disabled { opacity: .7; cursor: progress; }
+.onyx-hint {
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ww-ink-faint);
+  max-width: 30em;
+}
+.onyx-notice {
+  max-width: 30em;
+  margin-bottom: 24px;
+  padding: 12px 14px;
+  border: 1px solid rgba(91, 157, 255, .45);
+  background: rgba(91, 157, 255, .08);
+  font-size: 15px;
+  line-height: 1.5;
+}
+.onyx-notice.is-error {
+  border-color: rgb(var(--ww-vermilion) / .5);
+  background: rgb(var(--ww-vermilion) / .08);
+}
+.onyx-claim {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  max-width: 30em;
+}
+.claim-title { font-weight: 600; font-size: 20px; margin: 0 0 6px; }
+.claim-text { color: var(--ww-ink-faint); line-height: 1.55; margin: 0 0 18px; }
+.claim-actions { display: grid; gap: 10px; }
+.link-button {
+  display: block;
+  margin-top: 10px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
+  text-decoration: underline;
+  opacity: .75;
+  cursor: pointer;
 }
 
 .footer-note {

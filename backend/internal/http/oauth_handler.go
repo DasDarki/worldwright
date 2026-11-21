@@ -1,6 +1,7 @@
 package http
 
 import (
+	"errors"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -66,6 +67,11 @@ func oauthCallback(svc *auth.Service, o *auth.OAuth) fiber.Handler {
 			return err
 		}
 		user, err := o.ResolveUser(c.UserContext(), provider, info)
+		if errors.Is(err, auth.ErrSignupDisabled) {
+			c.ClearCookie(auth.OAuthStateCookie)
+			c.ClearCookie(auth.OAuthVerifierCookie)
+			return c.Redirect(o.PublicURL()+"/login?error=register_only", fiber.StatusFound)
+		}
 		if err != nil {
 			return err
 		}

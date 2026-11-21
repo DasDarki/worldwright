@@ -487,5 +487,37 @@
         "body": "Ein ZIP mit einer PDF-Datei pro Eintrag, in Ordner nach Entity-Typ gruppiert."
       }
     }
+  },
+  "onyx": {
+    "signIn": "Mit Onyx anmelden",
+    "signInHint": "Onyx ist der gemeinsame Login für alle Apps. Schon migriert oder neu hier? Einfach mit Onyx anmelden.",
+    "otherMethods": "Oder mit deinem bisherigen Login",
+    "newAccounts": "Neue Konten gibt es nur noch über Onyx. Wer noch nicht migriert ist, meldet sich wie gewohnt an und migriert danach über das Banner.",
+    "bannerTitle": "Bitte migriere dein Konto zu Onyx",
+    "bannerText": "Onyx ist der neue gemeinsame Login für alle Apps. Dein Konto und deine Welten bleiben erhalten, nur dein Anzeigename wird an Onyx angepasst.",
+    "migrate": "Zu Onyx migrieren",
+    "redirecting": "Weiterleitung zu Onyx",
+    "migrateFailed": "Die Migration konnte nicht gestartet werden. Versuch es erneut.",
+    "linkedTitle": "Mit Onyx verbunden",
+    "dismiss": "Schließen",
+    "welcome": "Willkommen, {name}",
+    "welcomeFallback": "Onyx-Nutzer",
+    "claimText": "Dein Onyx-Konto ist noch mit keinem Worldwright-Konto verbunden. Hast du schon ein Worldwright-Konto? Dann melde dich einmal wie bisher an, und wir verbinden es mit Onyx.",
+    "connectExisting": "Bestehendes Konto verbinden",
+    "createNew": "Neues Konto erstellen",
+    "cancel": "Abbrechen",
+    "linkingHint": "Melde dich mit deinem bisherigen Login an. Danach wird dein Konto automatisch mit Onyx verbunden.",
+    "registerOnly": "Für dieses Konto gibt es keinen Worldwright-Zugang. Neue Konten gibt es nur noch über Onyx.",
+    "settingsTitle": "Onyx",
+    "settingsLinked": "Dein Konto ist mit Onyx verbunden. Du meldest dich über Onyx an.",
+    "settingsNotLinked": "Dein Konto ist noch nicht mit Onyx verbunden.",
+    "result": {
+      "linked": "Dein Konto ist jetzt mit Onyx verbunden. Ab sofort kannst du dich mit Onyx anmelden.",
+      "taken": "Dieses Onyx-Konto ist bereits mit einem anderen Worldwright-Konto verbunden.",
+      "other": "Dein Worldwright-Konto ist bereits mit einem anderen Onyx-Konto verbunden.",
+      "failed": "Die Verbindung zu Onyx ist fehlgeschlagen. Versuch es gleich noch einmal.",
+      "cancelled": "Die Anmeldung bei Onyx wurde abgebrochen.",
+      "expired": "Die Anmeldung bei Onyx ist abgelaufen. Starte sie bitte erneut."
+    }
   }
 }

@@ -19,6 +19,18 @@ const newPassword = ref('')
 const newPasswordConfirm = ref('')
 
 const profileSaving = ref(false)
+const onyx = useOnyx()
+const onyxBusy = ref(false)
+
+async function migrateToOnyx() {
+  onyxBusy.value = true
+  try {
+    await onyx.startMigration()
+  } catch {
+    onyxBusy.value = false
+    toasts.error(t('onyx.migrateFailed'))
+  }
+}
 const passwordSaving = ref(false)
 
 const { data: identitiesData } = await useAsyncData('account-identities', () =>
@@ -116,7 +128,7 @@ useReveal()
           Vol. I · {{ t('account.eyebrow') }}
         </div>
         <h1 class="hero-title"><em>{{ t('account.title') }}</em></h1>
-        <p class="lede">{{ auth.user.email }}</p>
+        <p class="lede">{{ auth.user.email || auth.user.display_name }}</p>
       </div>
 
       <div class="grid">
@@ -162,6 +174,16 @@ useReveal()
           <div class="actions">
             <button type="button" class="ww-btn-primary" :disabled="passwordSaving || !newPassword" @click="changePassword">
               {{ passwordSaving ? t('common.loading') : t('account.savePassword') }}
+            </button>
+          </div>
+        </section>
+
+        <section v-if="onyx.enabled.value" class="block">
+          <h3 class="ww-label section-head">{{ t('onyx.settingsTitle') }}</h3>
+          <p class="hint">{{ onyx.linked.value ? t('onyx.settingsLinked') : t('onyx.settingsNotLinked') }}</p>
+          <div v-if="!onyx.linked.value" class="actions">
+            <button type="button" class="ww-btn-primary" :disabled="onyxBusy" @click="migrateToOnyx">
+              {{ onyxBusy ? t('onyx.redirecting') : t('onyx.migrate') }}
             </button>
           </div>
         </section>

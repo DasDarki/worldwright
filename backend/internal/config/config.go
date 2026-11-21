@@ -16,11 +16,14 @@ type Config struct {
 	CookieSecure  bool
 
 	PublicURL          string
-	OAuthAllowSignup   bool
 	GoogleClientID     string
 	GoogleClientSecret string
 	DiscordClientID    string
 	DiscordClientSecret string
+
+	OnyxURL          string
+	OnyxClientID     string
+	OnyxClientSecret string
 }
 
 func Load() Config {
@@ -36,11 +39,14 @@ func Load() Config {
 		CookieSecure:  os.Getenv("WORLDWRIGHT_COOKIE_SECURE") == "true",
 
 		PublicURL:           publicURL,
-		OAuthAllowSignup:    os.Getenv("WORLDWRIGHT_OAUTH_ALLOW_SIGNUP") == "true",
 		GoogleClientID:      os.Getenv("WORLDWRIGHT_GOOGLE_CLIENT_ID"),
 		GoogleClientSecret:  os.Getenv("WORLDWRIGHT_GOOGLE_CLIENT_SECRET"),
 		DiscordClientID:     os.Getenv("WORLDWRIGHT_DISCORD_CLIENT_ID"),
 		DiscordClientSecret: os.Getenv("WORLDWRIGHT_DISCORD_CLIENT_SECRET"),
+
+		OnyxURL:          strings.TrimRight(os.Getenv("WORLDWRIGHT_ONYX_URL"), "/"),
+		OnyxClientID:     os.Getenv("WORLDWRIGHT_ONYX_CLIENT_ID"),
+		OnyxClientSecret: os.Getenv("WORLDWRIGHT_ONYX_CLIENT_SECRET"),
 	}
 }
 

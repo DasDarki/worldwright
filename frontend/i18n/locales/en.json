@@ -487,5 +487,37 @@
         "body": "A ZIP containing one PDF file per entry, grouped into folders by entity type."
       }
     }
+  },
+  "onyx": {
+    "signIn": "Sign in with Onyx",
+    "signInHint": "Onyx is the shared sign-in for all apps. Already migrated or new here? Just sign in with Onyx.",
+    "otherMethods": "Or with your previous sign-in",
+    "newAccounts": "New accounts are created through Onyx only. If you have not migrated yet, sign in as usual and migrate through the banner afterwards.",
+    "bannerTitle": "Please migrate your account to Onyx",
+    "bannerText": "Onyx is the new shared sign-in for all apps. Your account and your worlds stay as they are, only your display name follows Onyx.",
+    "migrate": "Migrate to Onyx",
+    "redirecting": "Redirecting to Onyx",
+    "migrateFailed": "The migration could not be started. Try again.",
+    "linkedTitle": "Connected to Onyx",
+    "dismiss": "Dismiss",
+    "welcome": "Welcome, {name}",
+    "welcomeFallback": "Onyx user",
+    "claimText": "Your Onyx account is not connected to a Worldwright account yet. Already have a Worldwright account? Sign in the usual way once and we connect it to Onyx.",
+    "connectExisting": "Connect existing account",
+    "createNew": "Create new account",
+    "cancel": "Cancel",
+    "linkingHint": "Sign in with your previous sign-in. Your account is connected to Onyx right after.",
+    "registerOnly": "There is no Worldwright account for this sign-in. New accounts are created through Onyx only.",
+    "settingsTitle": "Onyx",
+    "settingsLinked": "Your account is connected to Onyx. You sign in through Onyx.",
+    "settingsNotLinked": "Your account is not connected to Onyx yet.",
+    "result": {
+      "linked": "Your account is now connected to Onyx. From now on you can sign in with Onyx.",
+      "taken": "This Onyx account is already connected to another Worldwright account.",
+      "other": "Your Worldwright account is already connected to another Onyx account.",
+      "failed": "Connecting to Onyx failed. Try again in a moment.",
+      "cancelled": "The Onyx sign-in was cancelled.",
+      "expired": "The Onyx sign-in expired. Please start it again."
+    }
   }
 }

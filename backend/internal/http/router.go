@@ -5,10 +5,13 @@ import (
 
 	"worldwright/backend/internal/admin"
 	"worldwright/backend/internal/auth"
+	"worldwright/backend/internal/onyx"
 	"worldwright/backend/internal/store"
 )
 
-func RegisterRoutes(app *fiber.App, st *store.Store, authSvc *auth.Service, oauthSvc *auth.OAuth, adminSvc *admin.Service, assetsDir string) {
+func RegisterRoutes(app *fiber.App, st *store.Store, authSvc *auth.Service, oauthSvc *auth.OAuth, onyxClient *onyx.Client, adminSvc *admin.Service, assetsDir string) {
+	onyxAuth := &onyxRoutes{svc: authSvc, client: onyxClient, flows: newOnyxFlowCache(), publicURL: oauthSvc.PublicURL()}
+
 	app.Get("/api/healthz", func(c *fiber.Ctx) error { return c.JSON(fiber.Map{"ok": true}) })
 
 	api := app.Group("/api")
@@ -17,11 +20,14 @@ func RegisterRoutes(app *fiber.App, st *store.Store, authSvc *auth.Service, oaut
 	api.Get("/share/entities/:slug", shareEntity(st))
 	api.Get("/share/maps/:id", shareMap(st))
 
-	api.Post("/auth/login", login(authSvc))
+	api.Post("/auth/login", login(authSvc, onyxAuth))
 	api.Post("/auth/logout", logout(authSvc))
 	api.Get("/auth/providers", providers(oauthSvc))
 	api.Get("/auth/oauth/:provider/start", oauthStart(authSvc, oauthSvc))
 	api.Get("/auth/oauth/:provider/callback", oauthCallback(authSvc, oauthSvc))
+	api.Get("/auth/onyx/start", onyxAuth.login)
+	api.Get("/auth/onyx/callback", onyxAuth.callback)
+	api.Get("/auth/onyx/register", onyxAuth.register)
 
 	// Read-only endpoints: anonymous callers see public entries only, players
 	// see public+player, admins see everything. Visibility is enforced inside
@@ -57,8 +63,10 @@ func RegisterRoutes(app *fiber.App, st *store.Store, authSvc *auth.Service, oaut
 	api.Get("/tags", listTags(st))
 
 	authed := api.Group("", requireAuth)
-	authed.Get("/auth/me", me)
-	authed.Patch("/auth/me", updateMe(authSvc))
+	authed.Get("/auth/me", me(onyxAuth))
+	authed.Patch("/auth/me", updateMe(authSvc, onyxAuth))
+	authed.Post("/auth/onyx/link", onyxAuth.link)
+	authed.Post("/auth/onyx/claim", onyxAuth.claim)
 	authed.Post("/auth/me/password", changePassword(authSvc))
 	authed.Get("/auth/me/identities", listIdentities(authSvc))
 

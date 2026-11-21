@@ -13,7 +13,7 @@ type loginRequest struct {
 	Password string `json:"password"`
 }
 
-func login(svc *auth.Service) fiber.Handler {
+func login(svc *auth.Service, onyxAuth *onyxRoutes) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var req loginRequest
 		if err := c.BodyParser(&req); err != nil {
@@ -24,7 +24,7 @@ func login(svc *auth.Service) fiber.Handler {
 			return err
 		}
 		setSessionCookie(c, svc, token)
-		return c.JSON(fiber.Map{"user": user})
+		return c.JSON(fiber.Map{"user": onyxAuth.view(c.UserContext(), user)})
 	}
 }
 
@@ -37,12 +37,14 @@ func logout(svc *auth.Service) fiber.Handler {
 	}
 }
 
-func me(c *fiber.Ctx) error {
-	u := auth.UserFrom(c)
-	if u == nil {
-		return fiber.NewError(fiber.StatusUnauthorized, "not authenticated")
+func me(onyxAuth *onyxRoutes) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		u := auth.UserFrom(c)
+		if u == nil {
+			return fiber.NewError(fiber.StatusUnauthorized, "not authenticated")
+		}
+		return c.JSON(fiber.Map{"user": onyxAuth.view(c.UserContext(), u)})
 	}
-	return c.JSON(fiber.Map{"user": u})
 }
 
 type updateProfileRequest struct {
@@ -51,7 +53,7 @@ type updateProfileRequest struct {
 	Locale      string `json:"locale"`
 }
 
-func updateMe(svc *auth.Service) fiber.Handler {
+func updateMe(svc *auth.Service, onyxAuth *onyxRoutes) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		u := auth.UserFrom(c)
 		if u == nil {
@@ -72,7 +74,7 @@ func updateMe(svc *auth.Service) fiber.Handler {
 		if err != nil {
 			return err
 		}
-		return c.JSON(fiber.Map{"user": updated})
+		return c.JSON(fiber.Map{"user": onyxAuth.view(c.UserContext(), updated)})
 	}
 }
 
